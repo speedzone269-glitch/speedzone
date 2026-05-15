@@ -1,1 +1,3430 @@
 
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a1929">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SPEEDZONE">
+<meta name="description" content="SPEEDZONE — Gestion des colisages maritimes France-Comores">
+<title>SPEEDZONE — Colisages Maritimes</title>
+<link rel="manifest" href='data:application/manifest+json;charset=utf-8,{
+ "name":"SPEEDZONE Colisage",
+ "short_name":"SPEEDZONE",
+ "description":"Gestion des colisages maritimes France-Comores",
+ "start_url":"./",
+ "display":"standalone",
+ "background_color":"%23faf7f0",
+ "theme_color":"%230a1929",
+ "orientation":"any",
+ "lang":"fr",
+ "icons":[
+ {"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 192 192%22%3E%3Crect width%3D%22192%22 height%3D%22192%22 fill%3D%22%230a1929%22%2F%3E%3Cpath d%3D%22M48 96 L96 56 L144 96 L96 136 Z%22 fill%3D%22none%22 stroke%3D%22%23d64545%22 stroke-width%3D%226%22%2F%3E%3Ctext x%3D%2296%22 y%3D%22168%22 fill%3D%22%23c9a96e%22 font-family%3D%22sans-serif%22 font-weight%3D%22bold%22 font-size%3D%2218%22 text-anchor%3D%22middle%22%3ESPEEDZONE%3C%2Ftext%3E%3C%2Fsvg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any"},
+ {"src":"data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 512 512%22%3E%3Crect width%3D%22512%22 height%3D%22512%22 fill%3D%22%230a1929%22%2F%3E%3Cpath d%3D%22M128 256 L256 150 L384 256 L256 362 Z%22 fill%3D%22none%22 stroke%3D%22%23d64545%22 stroke-width%3D%2216%22%2F%3E%3Ctext x%3D%22256%22 y%3D%22448%22 fill%3D%22%23c9a96e%22 font-family%3D%22sans-serif%22 font-weight%3D%22bold%22 font-size%3D%2248%22 text-anchor%3D%22middle%22%3ESPEEDZONE%3C%2Ftext%3E%3C%2Fsvg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any"}
+ ]
+}'>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a1929'/><path d='M16 32 L32 20 L48 32 L32 44 Z' fill='none' stroke='%23d64545' stroke-width='3'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+ /* Palette SPEEDZONE — marine + corail/rouge + accents dorés */
+ --ink: #0a1929; /* Bleu marine profond — fond principal sombre */
+ --ink-soft: #102a43; /* Bleu marine doux */
+ --deep: #16385c; /* Bleu marine intermédiaire */
+ --sea: #2a5d7c; /* Bleu maritime */
+ --coral: #d64545; /* Rouge corail SPEEDZONE — accent principal */
+ --coral-deep: #a8321e; /* Rouge profond */
+ --coral-soft: #f4b8b0; /* Rouge pastel */
+ --brass: #c9a96e; /* Doré laiton — accents secondaires */
+ --brass-soft: #e3d4ad;
+ --brass-dim: #8a7549;
+ --sand: #f5f1e8; /* Sable */
+ --paper: #faf7f0; /* Papier */
+ --foam: #e8eef2; /* Écume */
+ --line: #d4cdb8; /* Lignes / bordures */
+ --line-dark: #b8b09a;
+ --success: #2d5e3f;
+ --danger: #8b2424;
+ --warning: #b8801e;
+ --shadow-sm: 0 1px 2px rgba(10, 25, 41, 0.06);
+ --shadow-md: 0 4px 12px rgba(10, 25, 41, 0.10);
+ --shadow-lg: 0 12px 32px rgba(10, 25, 41, 0.18);
+ --shadow-coral: 0 4px 16px rgba(214, 69, 69, 0.25);
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+ html { -webkit-text-size-adjust: 100%; }
+ body {
+ font-family: 'Outfit', system-ui, sans-serif;
+ background: var(--paper);
+ background-image:
+ radial-gradient(circle at 15% 5%, rgba(214, 69, 69, 0.05) 0%, transparent 40%),
+ radial-gradient(circle at 85% 95%, rgba(42, 93, 124, 0.06) 0%, transparent 40%),
+ repeating-linear-gradient(90deg, transparent 0, transparent 80px, rgba(201, 169, 110, 0.02) 80px, rgba(201, 169, 110, 0.02) 81px);
+ color: var(--ink);
+ min-height: 100vh;
+ min-height: 100dvh;
+ padding-bottom: env(safe-area-inset-bottom);
+ -webkit-font-smoothing: antialiased;
+ }
+ /* ─── HEADER ─── */
+ .header {
+ background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+ color: var(--paper);
+ padding: 24px 32px;
+ padding-top: max(24px, env(safe-area-inset-top));
+ border-bottom: 4px solid var(--coral);
+ position: relative;
+ overflow: hidden;
+ }
+ .header::before {
+ content: "";
+ position: absolute;
+ top: 0; left: 0; right: 0; bottom: 0;
+ background-image:
+ repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201, 169, 110, 0.04) 40px, rgba(201, 169, 110, 0.04) 41px);
+ pointer-events: none;
+ }
+ .header-inner {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 16px;
+ position: relative;
+ max-width: 1600px;
+ margin: 0 auto;
+ }
+ .brand {
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ }
+ .logo-mark {
+ width: 56px;
+ height: 56px;
+ background: var(--coral);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-shrink: 0;
+ box-shadow: var(--shadow-coral);
+ position: relative;
+ transform: rotate(45deg);
+ border: 2px solid var(--brass);
+ }
+ .logo-mark svg {
+ transform: rotate(-45deg);
+ }
+ .brand-text h1 {
+ font-family: 'Cormorant Garamond', serif;
+ font-weight: 700;
+ font-size: 28px;
+ letter-spacing: 0.04em;
+ line-height: 1;
+ color: var(--paper);
+ }
+ .brand-text h1 .accent {
+ color: var(--coral-soft);
+ }
+ .brand-text .slogan {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.18em;
+ color: var(--brass);
+ margin-top: 6px;
+ text-transform: uppercase;
+ }
+ .header-actions {
+ display: flex;
+ gap: 10px;
+ align-items: center;
+ flex-wrap: wrap;
+ }
+ /* ─── STATS BAR ─── */
+ .stats-bar {
+ background: var(--ink-soft);
+ color: var(--paper);
+ padding: 16px 32px;
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 24px;
+ border-bottom: 1px solid rgba(201, 169, 110, 0.25);
+ overflow-x: auto;
+ }
+ .stat {
+ display: flex;
+ flex-direction: column;
+ gap: 4px;
+ position: relative;
+ padding-left: 14px;
+ min-width: 110px;
+ }
+ .stat::before {
+ content: "";
+ position: absolute;
+ left: 0; top: 4px; bottom: 4px;
+ width: 2px;
+ background: var(--coral);
+ }
+ .stat-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 9px;
+ letter-spacing: 0.22em;
+ color: var(--brass);
+ text-transform: uppercase;
+ font-weight: 500;
+ }
+ .stat-value {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 28px;
+ font-weight: 600;
+ line-height: 1;
+ }
+ .stat-unit {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--brass-soft);
+ margin-left: 4px;
+ font-weight: 400;
+ }
+ /* ─── MAIN ─── */
+ .main {
+ padding: 28px 32px 80px;
+ max-width: 1600px;
+ margin: 0 auto;
+ }
+ /* ─── TOOLBAR ─── */
+ .toolbar {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 20px;
+ flex-wrap: wrap;
+ gap: 12px;
+ }
+ .toolbar-left, .toolbar-right {
+ display: flex;
+ gap: 10px;
+ flex-wrap: wrap;
+ align-items: center;
+ }
+ .search {
+ position: relative;
+ display: flex;
+ align-items: center;
+ }
+ .search input {
+ width: 300px;
+ max-width: 100%;
+ padding: 11px 16px 11px 42px;
+ border: 1px solid var(--line);
+ background: var(--paper);
+ font-family: 'Outfit', sans-serif;
+ font-size: 14px;
+ color: var(--ink);
+ outline: none;
+ transition: all 0.2s;
+ border-radius: 2px;
+ }
+ .search input:focus {
+ border-color: var(--coral);
+ box-shadow: 0 0 0 3px rgba(214, 69, 69, 0.12);
+ }
+ .search svg {
+ position: absolute;
+ left: 14px;
+ color: var(--brass-dim);
+ pointer-events: none;
+ }
+ select.input-select {
+ padding: 11px 36px 11px 14px;
+ border: 1px solid var(--line);
+ background: var(--paper) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a7549' stroke-width='1.5' fill='none'/></svg>") no-repeat right 14px center;
+ font-family: 'Outfit', sans-serif;
+ font-size: 13px;
+ color: var(--ink);
+ outline: none;
+ cursor: pointer;
+ appearance: none;
+ border-radius: 2px;
+ }
+ /* ─── BUTTONS ─── */
+ .btn {
+ padding: 11px 18px;
+ border: none;
+ font-family: 'Outfit', sans-serif;
+ font-size: 13px;
+ font-weight: 500;
+ letter-spacing: 0.02em;
+ cursor: pointer;
+ transition: all 0.18s;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ border-radius: 2px;
+ white-space: nowrap;
+ }
+ .btn-primary {
+ background: var(--coral);
+ color: var(--paper);
+ box-shadow: var(--shadow-coral);
+ }
+ .btn-primary:hover {
+ background: var(--coral-deep);
+ transform: translateY(-1px);
+ box-shadow: 0 6px 20px rgba(214, 69, 69, 0.35);
+ }
+ .btn-secondary {
+ background: var(--paper);
+ color: var(--ink);
+ border: 1px solid var(--line);
+ }
+ .btn-secondary:hover {
+ background: var(--sand);
+ border-color: var(--brass);
+ }
+ .btn-dark {
+ background: rgba(255, 255, 255, 0.08);
+ color: var(--paper);
+ border: 1px solid rgba(201, 169, 110, 0.3);
+ }
+ .btn-dark:hover {
+ background: rgba(214, 69, 69, 0.2);
+ border-color: var(--coral);
+ }
+ .btn-ghost {
+ background: transparent;
+ color: var(--ink);
+ padding: 8px 12px;
+ border: 1px solid transparent;
+ }
+ .btn-ghost:hover {
+ background: var(--sand);
+ border-color: var(--line);
+ }
+ .btn-danger {
+ background: transparent;
+ color: var(--danger);
+ border: 1px solid var(--danger);
+ }
+ .btn-danger:hover {
+ background: var(--danger);
+ color: var(--paper);
+ }
+ /* ─── TABLE ─── */
+ .table-wrap {
+ background: var(--paper);
+ border: 1px solid var(--line);
+ overflow-x: auto;
+ border-radius: 2px;
+ box-shadow: var(--shadow-sm);
+ }
+ table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 14px;
+ min-width: 720px;
+ }
+ thead {
+ background: var(--ink);
+ color: var(--paper);
+ }
+ th {
+ padding: 14px 16px;
+ text-align: left;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ font-weight: 600;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ color: var(--brass-soft);
+ border-bottom: 2px solid var(--coral);
+ white-space: nowrap;
+ }
+ th.num, th.actions { text-align: right; }
+ th.center { text-align: center; }
+ tbody tr {
+ border-bottom: 1px solid var(--line);
+ transition: background 0.15s;
+ }
+ tbody tr:hover {
+ background: var(--sand);
+ }
+ tbody tr:last-child { border-bottom: none; }
+ td {
+ padding: 14px 16px;
+ vertical-align: middle;
+ }
+ .ref-cell {
+ font-family: 'JetBrains Mono', monospace;
+ font-weight: 600;
+ color: var(--coral-deep);
+ font-size: 13px;
+ }
+ .ref-badge-photo {
+ display: inline-flex;
+ align-items: center;
+ gap: 3px;
+ margin-left: 8px;
+ background: var(--brass);
+ color: var(--ink);
+ padding: 2px 6px;
+ border-radius: 8px;
+ font-size: 10px;
+ font-weight: 700;
+ vertical-align: middle;
+ }
+ .num-cell {
+ font-family: 'JetBrains Mono', monospace;
+ text-align: right;
+ color: var(--ink-soft);
+ }
+ .vol-cell {
+ font-family: 'JetBrains Mono', monospace;
+ text-align: right;
+ color: var(--coral);
+ font-weight: 600;
+ }
+ .name-cell .sub {
+ font-size: 11px;
+ color: var(--brass-dim);
+ margin-top: 2px;
+ }
+ .actions-cell {
+ text-align: right;
+ white-space: nowrap;
+ }
+ .icon-btn {
+ width: 32px;
+ height: 32px;
+ border: 1px solid var(--line);
+ background: var(--paper);
+ color: var(--ink-soft);
+ cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ margin-left: 4px;
+ transition: all 0.15s;
+ border-radius: 2px;
+ }
+ .icon-btn:hover {
+ background: var(--ink);
+ color: var(--brass);
+ border-color: var(--ink);
+ }
+ .icon-btn.danger:hover {
+ background: var(--danger);
+ color: var(--paper);
+ border-color: var(--danger);
+ }
+ /* ─── EMPTY STATE ─── */
+ .empty {
+ background: var(--paper);
+ border: 1px dashed var(--line);
+ padding: 60px 24px;
+ text-align: center;
+ }
+ .empty svg {
+ color: var(--brass-dim);
+ margin-bottom: 16px;
+ }
+ .empty h3 {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 22px;
+ color: var(--ink);
+ margin-bottom: 6px;
+ }
+ .empty p {
+ color: var(--brass-dim);
+ font-size: 13px;
+ }
+ /* ─── MODAL ─── */
+ .modal {
+ position: fixed;
+ inset: 0;
+ background: rgba(10, 25, 41, 0.55);
+ backdrop-filter: blur(4px);
+ -webkit-backdrop-filter: blur(4px);
+ display: none;
+ align-items: flex-start;
+ justify-content: center;
+ z-index: 100;
+ padding: 24px 16px;
+ overflow-y: auto;
+ }
+ .modal.active {
+ display: flex;
+ }
+ .modal-content {
+ background: var(--paper);
+ width: 100%;
+ max-width: 920px;
+ border-radius: 2px;
+ border-top: 4px solid var(--coral);
+ box-shadow: var(--shadow-lg);
+ margin: auto 0;
+ animation: slideUp 0.25s ease-out;
+ }
+ @keyframes slideUp {
+ from { opacity: 0; transform: translateY(20px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+ .modal-header {
+ padding: 20px 28px;
+ border-bottom: 1px solid var(--line);
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+ color: var(--paper);
+ }
+ .modal-header h2 {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 22px;
+ font-weight: 600;
+ letter-spacing: 0.02em;
+ }
+ .modal-close {
+ background: none;
+ border: 1px solid rgba(201, 169, 110, 0.3);
+ color: var(--brass);
+ width: 32px;
+ height: 32px;
+ cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ transition: all 0.15s;
+ border-radius: 2px;
+ }
+ .modal-close:hover {
+ background: var(--coral);
+ color: var(--paper);
+ border-color: var(--coral);
+ }
+ .modal-body {
+ padding: 24px 28px;
+ max-height: calc(100vh - 200px);
+ overflow-y: auto;
+ }
+ .modal-footer {
+ padding: 16px 28px;
+ border-top: 1px solid var(--line);
+ display: flex;
+ justify-content: space-between;
+ gap: 12px;
+ background: var(--sand);
+ flex-wrap: wrap;
+ }
+ /* ─── FORM ─── */
+ .form-section {
+ margin-bottom: 24px;
+ }
+ .form-section-title {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.22em;
+ color: var(--coral-deep);
+ text-transform: uppercase;
+ font-weight: 600;
+ margin-bottom: 12px;
+ padding-bottom: 8px;
+ border-bottom: 1px solid var(--line);
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ }
+ .form-section-title::before {
+ content: "";
+ width: 8px;
+ height: 8px;
+ background: var(--coral);
+ transform: rotate(45deg);
+ }
+ .form-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 14px;
+ }
+ .form-grid.cols-3 {
+ grid-template-columns: repeat(3, 1fr);
+ }
+ .form-grid.cols-4 {
+ grid-template-columns: repeat(4, 1fr);
+ }
+ .form-field {
+ display: flex;
+ flex-direction: column;
+ gap: 6px;
+ }
+ .form-field.full {
+ grid-column: 1 / -1;
+ }
+ .form-field label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.12em;
+ color: var(--brass-dim);
+ text-transform: uppercase;
+ font-weight: 500;
+ }
+ .form-field label .required {
+ color: var(--coral);
+ }
+ .form-field label .optional {
+ color: var(--brass);
+ font-style: italic;
+ text-transform: none;
+ letter-spacing: 0;
+ font-size: 10px;
+ }
+ .form-field input,
+ .form-field select,
+ .form-field textarea {
+ padding: 10px 12px;
+ border: 1px solid var(--line);
+ background: var(--paper);
+ font-family: 'Outfit', sans-serif;
+ font-size: 14px;
+ color: var(--ink);
+ outline: none;
+ transition: all 0.15s;
+ border-radius: 2px;
+ }
+ .form-field input:focus,
+ .form-field select:focus,
+ .form-field textarea:focus {
+ border-color: var(--coral);
+ box-shadow: 0 0 0 3px rgba(214, 69, 69, 0.10);
+ }
+ .form-field textarea {
+ resize: vertical;
+ min-height: 60px;
+ font-family: 'Outfit', sans-serif;
+ }
+ .form-field .help {
+ font-size: 11px;
+ color: var(--brass-dim);
+ font-style: italic;
+ }
+ .form-field input.mono {
+ font-family: 'JetBrains Mono', monospace;
+ }
+ .form-field select {
+ appearance: none;
+ background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%238a7549' stroke-width='1.5' fill='none'/></svg>");
+ background-repeat: no-repeat;
+ background-position: right 12px center;
+ padding-right: 32px;
+ cursor: pointer;
+ }
+ /* ─── LOTS ─── */
+ .lot-card {
+ border: 1px solid var(--line);
+ border-left: 4px solid var(--coral);
+ background: var(--paper);
+ padding: 16px;
+ margin-bottom: 12px;
+ border-radius: 2px;
+ position: relative;
+ }
+ .lot-card-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 12px;
+ gap: 8px;
+ }
+ .lot-card-title {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ letter-spacing: 0.15em;
+ color: var(--coral-deep);
+ text-transform: uppercase;
+ font-weight: 600;
+ }
+ .lot-card-remove {
+ background: transparent;
+ border: none;
+ color: var(--danger);
+ cursor: pointer;
+ padding: 4px 8px;
+ font-size: 12px;
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ }
+ .lot-card-remove:hover {
+ color: var(--coral-deep);
+ }
+ .lot-summary {
+ margin-top: 12px;
+ padding-top: 12px;
+ border-top: 1px dashed var(--line);
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 8px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ }
+ .lot-summary-item {
+ color: var(--brass-dim);
+ }
+ .lot-summary-item strong {
+ color: var(--ink);
+ display: block;
+ font-size: 13px;
+ margin-top: 2px;
+ }
+ .lot-summary-item.volume strong {
+ color: var(--coral);
+ font-size: 14px;
+ }
+ .lot-summary-item.price strong {
+ color: var(--coral-deep);
+ font-size: 14px;
+ font-weight: 700;
+ }
+ .add-lot-btn {
+ width: 100%;
+ padding: 14px;
+ background: transparent;
+ border: 1px dashed var(--brass);
+ color: var(--coral-deep);
+ cursor: pointer;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ font-weight: 600;
+ transition: all 0.15s;
+ border-radius: 2px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 8px;
+ }
+ .add-lot-btn:hover {
+ background: rgba(214, 69, 69, 0.06);
+ border-color: var(--coral);
+ border-style: solid;
+ }
+ /* ─── CATALOGUE QUICK PICK ─── */
+ .catalog-pick {
+ display: flex;
+ gap: 6px;
+ flex-wrap: wrap;
+ margin-top: 4px;
+ margin-bottom: 4px;
+ }
+ .catalog-chip {
+ padding: 4px 10px;
+ border: 1px solid var(--line);
+ background: var(--paper);
+ color: var(--ink-soft);
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ cursor: pointer;
+ border-radius: 12px;
+ transition: all 0.15s;
+ }
+ .catalog-chip:hover {
+ border-color: var(--coral);
+ background: var(--coral);
+ color: var(--paper);
+ }
+ /* ─── EXPEDITION TOTALS ─── */
+ .totals-card {
+ background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+ color: var(--paper);
+ padding: 20px;
+ margin-top: 16px;
+ border-radius: 2px;
+ border-left: 4px solid var(--coral);
+ position: relative;
+ overflow: hidden;
+ }
+ .totals-card::before {
+ content: "TOTAUX EXPÉDITION";
+ position: absolute;
+ top: 8px;
+ right: 16px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 9px;
+ letter-spacing: 0.25em;
+ color: var(--brass);
+ opacity: 0.6;
+ }
+ .totals-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+ gap: 16px;
+ margin-top: 12px;
+ }
+ .total-item .label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 9px;
+ letter-spacing: 0.2em;
+ color: var(--brass);
+ text-transform: uppercase;
+ }
+ .total-item .value {
+ font-family: 'Cormorant Garamond', serif;
+ font-size: 24px;
+ font-weight: 600;
+ margin-top: 4px;
+ line-height: 1.1;
+ }
+ .total-item .value .unit {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--brass-soft);
+ margin-left: 4px;
+ font-weight: 400;
+ }
+ .total-item.highlight .value {
+ color: var(--coral-soft);
+ font-size: 30px;
+ }
+ /* ─── DETAIL VIEW ─── */
+ .detail-section {
+ margin-bottom: 20px;
+ }
+ .detail-section-title {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.22em;
+ color: var(--coral-deep);
+ text-transform: uppercase;
+ font-weight: 600;
+ margin-bottom: 10px;
+ padding-bottom: 6px;
+ border-bottom: 1px solid var(--line);
+ }
+ .detail-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 8px 24px;
+ }
+ .detail-row {
+ display: flex;
+ flex-direction: column;
+ gap: 2px;
+ }
+ .detail-row.full { grid-column: 1 / -1; }
+ .detail-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.1em;
+ color: var(--brass-dim);
+ text-transform: uppercase;
+ }
+ .detail-value {
+ font-size: 14px;
+ color: var(--ink);
+ }
+ .detail-value.mono { font-family: 'JetBrains Mono', monospace; }
+ .detail-value.empty { color: var(--brass-dim); font-style: italic; }
+ .detail-value.big { font-size: 18px; font-weight: 600; color: var(--coral); font-family: 'JetBrains Mono', monospace; }
+ .detail-lots-table {
+ width: 100%;
+ border-collapse: collapse;
+ font-size: 13px;
+ margin-top: 10px;
+ }
+ .detail-lots-table th {
+ background: var(--ink);
+ color: var(--brass-soft);
+ padding: 10px 12px;
+ text-align: left;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 9px;
+ letter-spacing: 0.15em;
+ text-transform: uppercase;
+ }
+ .detail-lots-table th.num { text-align: right; }
+ .detail-lots-table td {
+ padding: 10px 12px;
+ border-bottom: 1px solid var(--line);
+ background: var(--paper);
+ }
+ .detail-lots-table td.num {
+ text-align: right;
+ font-family: 'JetBrains Mono', monospace;
+ }
+ /* ─── TOAST ─── */
+ .toast {
+ position: fixed;
+ bottom: 24px;
+ left: 50%;
+ transform: translateX(-50%) translateY(120%);
+ background: var(--ink);
+ color: var(--paper);
+ padding: 12px 20px;
+ border-left: 3px solid var(--coral);
+ box-shadow: var(--shadow-lg);
+ font-size: 13px;
+ z-index: 200;
+ transition: transform 0.3s ease-out;
+ max-width: calc(100% - 32px);
+ border-radius: 2px;
+ }
+ .toast.show {
+ transform: translateX(-50%) translateY(0);
+ }
+ .toast.error { border-left-color: var(--danger); }
+ .toast.success { border-left-color: var(--success); }
+ .toast.warning { border-left-color: var(--warning); }
+ /* ─── INSTALL BANNER ─── */
+ .install-banner {
+ background: var(--coral);
+ color: var(--paper);
+ padding: 12px 32px;
+ display: none;
+ align-items: center;
+ justify-content: space-between;
+ gap: 12px;
+ font-size: 13px;
+ flex-wrap: wrap;
+ }
+ .install-banner.show { display: flex; }
+ .install-banner button {
+ background: var(--paper);
+ color: var(--coral-deep);
+ border: none;
+ padding: 6px 14px;
+ cursor: pointer;
+ font-weight: 600;
+ font-size: 12px;
+ border-radius: 2px;
+ }
+ .install-banner .close {
+ background: transparent;
+ color: var(--paper);
+ border: 1px solid rgba(255, 255, 255, 0.3);
+ }
+ /* ─── FOOTER ─── */
+ .footer {
+ margin-top: 40px;
+ padding: 24px 32px;
+ background: var(--ink);
+ color: var(--brass-soft);
+ text-align: center;
+ font-size: 11px;
+ font-family: 'JetBrains Mono', monospace;
+ letter-spacing: 0.1em;
+ border-top: 2px solid var(--coral);
+ }
+ .footer .company {
+ color: var(--coral-soft);
+ font-weight: 600;
+ margin-bottom: 4px;
+ }
+ .footer .slogan {
+ color: var(--brass);
+ font-style: italic;
+ margin-bottom: 8px;
+ }
+ .footer .contact {
+ color: var(--brass-dim);
+ font-size: 10px;
+ }
+ /* ─── RESPONSIVE ─── */
+ @media (max-width: 768px) {
+ .header { padding: 18px 16px; padding-top: max(18px, env(safe-area-inset-top)); }
+ .stats-bar { padding: 14px 16px; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+ .stat-value { font-size: 22px; }
+ .main { padding: 18px 16px 60px; }
+ .toolbar { flex-direction: column; align-items: stretch; }
+ .toolbar-left, .toolbar-right { width: 100%; }
+ .search input { width: 100%; }
+ .modal { padding: 0; }
+ .modal-content { margin: 0; min-height: 100vh; min-height: 100dvh; max-height: 100vh; border-top: none; border-radius: 0; }
+ .modal-body { max-height: calc(100dvh - 140px); }
+ .form-grid, .form-grid.cols-3, .form-grid.cols-4 { grid-template-columns: 1fr; }
+ .lot-summary { grid-template-columns: 1fr 1fr; }
+ .totals-grid { grid-template-columns: 1fr 1fr; }
+ .total-item.highlight .value { font-size: 24px; }
+ .detail-grid { grid-template-columns: 1fr; }
+ .brand-text h1 { font-size: 22px; }
+ .modal-footer { flex-direction: column; }
+ .modal-footer .btn { width: 100%; justify-content: center; }
+ .footer { padding: 18px 16px; }
+ }
+ /* ─── PRINT ─── */
+ @media print {
+ body { background: white; }
+ .header, .stats-bar, .toolbar, .footer, .install-banner, .modal-footer, .actions-cell { display: none !important; }
+ .modal { position: static; background: white; backdrop-filter: none; padding: 0; }
+ .modal-content { box-shadow: none; max-width: 100%; border-top: 4px solid #d64545; }
+ .table-wrap { border: none; box-shadow: none; }
+ }
+ /* ─── DROPDOWN MENU ─── */
+ .dropdown {
+ position: relative;
+ }
+ .dropdown-menu {
+ position: absolute;
+ top: calc(100% + 4px);
+ right: 0;
+ background: var(--paper);
+ border: 1px solid var(--line);
+ box-shadow: var(--shadow-md);
+ min-width: 200px;
+ z-index: 50;
+ display: none;
+ border-radius: 2px;
+ overflow: hidden;
+ }
+ .dropdown-menu.show { display: block; }
+ .dropdown-menu button {
+ width: 100%;
+ text-align: left;
+ padding: 10px 14px;
+ background: transparent;
+ border: none;
+ cursor: pointer;
+ font-family: 'Outfit', sans-serif;
+ font-size: 13px;
+ color: var(--ink);
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ border-bottom: 1px solid var(--line);
+ }
+ .dropdown-menu button:last-child { border-bottom: none; }
+ .dropdown-menu button:hover { background: var(--sand); color: var(--coral-deep); }
+ .dropdown-menu button svg { color: var(--brass-dim); }
+ .dropdown-menu button:hover svg { color: var(--coral); }
+ .dropdown-menu button.danger:hover { background: var(--danger); color: white; }
+ .dropdown-menu button.danger:hover svg { color: white; }
+ /* ─── SHAPE TOGGLE (boîte / cylindre) ─── */
+ .shape-toggle {
+ display: inline-flex;
+ border: 1px solid var(--line);
+ border-radius: 2px;
+ overflow: hidden;
+ }
+ .shape-btn {
+ padding: 5px 10px;
+ background: var(--paper);
+ border: none;
+ cursor: pointer;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ color: var(--brass-dim);
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ transition: all 0.15s;
+ }
+ .shape-btn:hover { background: var(--sand); color: var(--ink); }
+ .shape-btn.active {
+ background: var(--coral);
+ color: var(--paper);
+ }
+ .shape-btn:not(:last-child) { border-right: 1px solid var(--line); }
+ /* ─── CATALOG TABS ─── */
+ .catalog-tabs {
+ display: flex;
+ gap: 2px;
+ border-bottom: 2px solid var(--coral);
+ margin-bottom: 20px;
+ overflow-x: auto;
+ padding-bottom: 1px;
+ }
+ .catalog-tab {
+ padding: 10px 14px;
+ background: var(--sand);
+ border: 1px solid var(--line);
+ border-bottom: none;
+ cursor: pointer;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+ color: var(--brass-dim);
+ font-weight: 500;
+ transition: all 0.15s;
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ white-space: nowrap;
+ border-radius: 4px 4px 0 0;
+ position: relative;
+ }
+ .catalog-tab:hover { background: var(--paper); color: var(--ink); }
+ .catalog-tab.active {
+ background: var(--coral);
+ color: var(--paper);
+ border-color: var(--coral);
+ font-weight: 600;
+ }
+ .catalog-tab-icon {
+ font-size: 14px;
+ }
+ .catalog-tab-badge {
+ background: var(--brass);
+ color: var(--ink);
+ font-size: 9px;
+ padding: 1px 5px;
+ border-radius: 8px;
+ font-weight: 700;
+ margin-left: 4px;
+ }
+ .catalog-tab.active .catalog-tab-badge {
+ background: var(--paper);
+ color: var(--coral-deep);
+ }
+ /* ─── CATALOG CARDS ─── */
+ .catalog-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+ gap: 10px;
+ }
+ .catalog-card {
+ background: var(--paper);
+ border: 1px solid var(--line);
+ border-left: 3px solid var(--brass);
+ padding: 12px;
+ border-radius: 2px;
+ transition: all 0.15s;
+ display: flex;
+ gap: 12px;
+ align-items: flex-start;
+ position: relative;
+ }
+ .catalog-card.pickable {
+ cursor: pointer;
+ }
+ .catalog-card.pickable:hover {
+ border-color: var(--coral);
+ border-left-color: var(--coral);
+ background: var(--sand);
+ transform: translateY(-1px);
+ box-shadow: var(--shadow-sm);
+ }
+ .catalog-card-shape {
+ font-size: 22px;
+ color: var(--coral);
+ line-height: 1;
+ flex-shrink: 0;
+ margin-top: 2px;
+ }
+ .catalog-card-content {
+ flex: 1;
+ min-width: 0;
+ }
+ .catalog-card-label {
+ font-weight: 600;
+ font-size: 13px;
+ color: var(--ink);
+ margin-bottom: 4px;
+ }
+ .catalog-card-dim {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--ink-soft);
+ margin-bottom: 4px;
+ }
+ .catalog-card-vol {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--coral-deep);
+ font-weight: 600;
+ margin-bottom: 6px;
+ }
+ .catalog-card-extras {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 6px;
+ font-size: 10px;
+ }
+ .catalog-extra {
+ background: var(--ink-soft);
+ color: var(--brass-soft);
+ padding: 2px 7px;
+ border-radius: 8px;
+ font-family: 'JetBrains Mono', monospace;
+ font-weight: 500;
+ }
+ .catalog-extra-note {
+ color: var(--brass-dim);
+ font-style: italic;
+ padding: 2px 0;
+ }
+ .catalog-card-actions {
+ display: flex;
+ flex-direction: column;
+ gap: 4px;
+ align-self: stretch;
+ }
+ .catalog-card-actions .icon-btn {
+ width: 24px;
+ height: 24px;
+ }
+ .user-catalog-header {
+ background: var(--sand);
+ padding: 14px;
+ border: 1px solid var(--line);
+ border-left: 3px solid var(--coral);
+ margin-bottom: 16px;
+ border-radius: 2px;
+ }
+ /* ─── USER CATALOG FORM ─── */
+ .ucf-volume-display {
+ background: var(--ink);
+ color: var(--coral-soft);
+ padding: 12px;
+ margin-top: 12px;
+ border-left: 3px solid var(--coral);
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 14px;
+ text-align: center;
+ border-radius: 2px;
+ }
+ .ucf-volume-display .label {
+ font-size: 10px;
+ color: var(--brass);
+ letter-spacing: 0.2em;
+ text-transform: uppercase;
+ display: block;
+ margin-bottom: 4px;
+ }
+ /* ─── PHOTOS GALLERY (formulaire) ─── */
+ .photos-controls {
+ display: flex;
+ gap: 8px;
+ align-items: center;
+ flex-wrap: wrap;
+ margin-bottom: 12px;
+ }
+ .photo-btn {
+ font-size: 12px;
+ padding: 9px 14px;
+ }
+ .photos-counter {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--brass-dim);
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ margin-left: auto;
+ background: var(--sand);
+ padding: 6px 12px;
+ border-left: 2px solid var(--coral);
+ }
+ .photos-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+ gap: 10px;
+ }
+ .photo-thumb {
+ position: relative;
+ aspect-ratio: 1;
+ border: 1px solid var(--line);
+ overflow: hidden;
+ cursor: pointer;
+ border-radius: 2px;
+ background: var(--sand);
+ transition: all 0.15s;
+ }
+ .photo-thumb:hover {
+ border-color: var(--coral);
+ transform: scale(1.02);
+ box-shadow: var(--shadow-md);
+ }
+ .photo-thumb img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+ }
+ .photo-thumb-actions {
+ position: absolute;
+ top: 4px;
+ right: 4px;
+ display: flex;
+ gap: 4px;
+ opacity: 0;
+ transition: opacity 0.15s;
+ }
+ .photo-thumb:hover .photo-thumb-actions {
+ opacity: 1;
+ }
+ .photo-thumb-del {
+ width: 26px;
+ height: 26px;
+ background: rgba(139, 36, 36, 0.92);
+ color: white;
+ border: none;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%;
+ transition: all 0.15s;
+ }
+ .photo-thumb-del:hover {
+ background: var(--danger);
+ transform: scale(1.1);
+ }
+ .photo-thumb-caption {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ background: linear-gradient(to top, rgba(10, 25, 41, 0.9), transparent);
+ color: var(--paper);
+ padding: 12px 6px 4px;
+ font-size: 10px;
+ font-family: 'JetBrains Mono', monospace;
+ letter-spacing: 0.05em;
+ text-align: center;
+ }
+ .photo-thumb-uploading {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: var(--brass);
+ font-size: 10px;
+ font-family: 'JetBrains Mono', monospace;
+ text-align: center;
+ padding: 8px;
+ background: repeating-linear-gradient(45deg, var(--sand), var(--sand) 8px, var(--paper) 8px, var(--paper) 16px);
+ }
+ .photos-help {
+ font-size: 11px;
+ color: var(--brass-dim);
+ font-style: italic;
+ margin-top: 10px;
+ padding: 8px 10px;
+ background: var(--sand);
+ border-left: 2px solid var(--brass);
+ border-radius: 2px;
+ }
+ /* ─── PHOTOS DANS LA VUE DÉTAIL ─── */
+ .detail-photos-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+ gap: 10px;
+ }
+ .detail-photo {
+ aspect-ratio: 1;
+ border: 1px solid var(--line);
+ overflow: hidden;
+ cursor: pointer;
+ border-radius: 2px;
+ transition: all 0.15s;
+ }
+ .detail-photo:hover {
+ border-color: var(--coral);
+ transform: scale(1.02);
+ }
+ .detail-photo img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+ }
+ /* ─── LIGHTBOX ─── */
+ .lightbox {
+ position: fixed;
+ inset: 0;
+ background: rgba(10, 25, 41, 0.95);
+ z-index: 300;
+ display: none;
+ align-items: center;
+ justify-content: center;
+ padding: 20px;
+ }
+ .lightbox.active {
+ display: flex;
+ }
+ .lightbox-img {
+ max-width: 95%;
+ max-height: 90vh;
+ object-fit: contain;
+ box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+ border: 2px solid var(--brass);
+ }
+ .lightbox-close {
+ position: absolute;
+ top: max(16px, env(safe-area-inset-top));
+ right: 16px;
+ background: rgba(214, 69, 69, 0.9);
+ color: var(--paper);
+ border: 2px solid var(--brass);
+ width: 44px;
+ height: 44px;
+ border-radius: 50%;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 301;
+ }
+ .lightbox-close:hover { background: var(--coral); }
+ .lightbox-nav {
+ position: absolute;
+ top: 50%;
+ transform: translateY(-50%);
+ background: rgba(201, 169, 110, 0.2);
+ color: var(--paper);
+ border: 1px solid var(--brass);
+ width: 48px;
+ height: 48px;
+ border-radius: 50%;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 24px;
+ backdrop-filter: blur(4px);
+ z-index: 301;
+ }
+ .lightbox-nav:hover {
+ background: var(--coral);
+ border-color: var(--coral);
+ }
+ .lightbox-nav.prev { left: 16px; }
+ .lightbox-nav.next { right: 16px; }
+ .lightbox-caption {
+ position: absolute;
+ bottom: max(16px, env(safe-area-inset-bottom));
+ left: 50%;
+ transform: translateX(-50%);
+ color: var(--brass-soft);
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ letter-spacing: 0.15em;
+ background: rgba(10, 25, 41, 0.7);
+ padding: 6px 14px;
+ border-radius: 16px;
+ border: 1px solid var(--brass-dim);
+ }
+</style>
+</head>
+<body>
+<header class="header">
+ <div class="header-inner">
+ <div class="brand">
+ <div class="logo-mark">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#faf7f0" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ </div>
+ <div class="brand-text">
+ <h1>SPEED<span class="accent">ZONE</span></h1>
+ <div class="slogan">Comores sans souci · colis bien protégés</div>
+ </div>
+ </div>
+ <div class="header-actions">
+ <button class="btn btn-dark" onclick="openExpeditionModal()" title="Nouvelle expédition">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+ Nouvelle expédition
+ </button>
+ <div class="dropdown">
+ <button class="btn btn-dark" onclick="toggleDropdown(event)">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+ Menu
+ </button>
+ <div class="dropdown-menu" id="mainDropdown">
+ <button onclick="exportExcel(); closeDropdown();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Export Excel (CSV)</button>
+ <button onclick="exportBackup(); closeDropdown();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Sauvegarde (JSON)</button>
+ <button onclick="importBackup(); closeDropdown();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Restaurer (JSON)</button>
+ <button onclick="openCatalog(); closeDropdown();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Catalogues</button>
+ <button onclick="openAbout(); closeDropdown();"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>À propos</button>
+ </div>
+ </div>
+ </div>
+ </div>
+</header>
+<div class="install-banner" id="installBanner">
+ <span>📱 Installez SPEEDZONE sur votre appareil pour un accès rapide hors-ligne</span>
+ <div>
+ <button onclick="installApp()">Installer</button>
+ <button class="close" onclick="hideInstallBanner()">Plus tard</button>
+ </div>
+</div>
+<div class="stats-bar">
+ <div class="stat">
+ <div class="stat-label">Expéditions</div>
+ <div class="stat-value" id="stat-count">0</div>
+ </div>
+ <div class="stat">
+ <div class="stat-label">Volume total</div>
+ <div class="stat-value" id="stat-volume">0<span class="stat-unit">m³</span></div>
+ </div>
+ <div class="stat">
+ <div class="stat-label">Poids total</div>
+ <div class="stat-value" id="stat-weight">0<span class="stat-unit">kg</span></div>
+ </div>
+ <div class="stat">
+ <div class="stat-label">CA total</div>
+ <div class="stat-value" id="stat-price">0<span class="stat-unit">EUR</span></div>
+ </div>
+</div>
+<main class="main">
+ <div class="toolbar">
+ <div class="toolbar-left">
+ <div class="search">
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+ <input type="text" id="search" placeholder="Rechercher référence, client, marchandise…">
+ </div>
+ <select class="input-select" id="sortBy">
+ <option value="date-desc">▼ Plus récentes</option>
+ <option value="date-asc">▲ Plus anciennes</option>
+ <option value="ref-asc">Référence A→Z</option>
+ <option value="volume-desc">Volume ↓</option>
+ <option value="weight-desc">Poids ↓</option>
+ <option value="price-desc">Prix ↓</option>
+ </select>
+ </div>
+ </div>
+ <div class="table-wrap" id="tableWrap">
+ <table id="table">
+ <thead>
+ <tr>
+ <th>Référence</th>
+ <th>Date</th>
+ <th>Expéditeur</th>
+ <th>Destinataire</th>
+ <th class="num">Colis</th>
+ <th class="num">Volume m³</th>
+ <th class="num">Poids tax.</th>
+ <th class="num">Prix total</th>
+ <th class="actions"></th>
+ </tr>
+ </thead>
+ <tbody id="tbody"></tbody>
+ </table>
+ <div class="empty" id="empty" style="display:none;">
+ <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+ <h3>Aucune expédition enregistrée</h3>
+ <p>Cliquez sur « Nouvelle expédition » pour commencer</p>
+ </div>
+ </div>
+</main>
+<footer class="footer">
+ <div class="company">SPEEDZONE — Transit Maritime France ⟷ Comores</div>
+ <div class="slogan">"Comores sans souci, colis bien protégés"</div>
+ <div class="contact">
+ 1, rue Ferdinand de Lesseps · 72100 Le Mans · France<br>
+ Tel : +33 7 69 33 78 72 · +269 342 42 01<br>
+ www.speedzone.fr · contact@speedzone.cloud
+ </div>
+</footer>
+<div class="modal" id="modalExpedition">
+ <div class="modal-content" style="max-width:1000px;">
+ <div class="modal-header">
+ <h2 id="modalExpeditionTitle">Nouvelle expédition</h2>
+ <button class="modal-close" onclick="closeExpeditionModal()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="modal-body">
+ <form id="formExpedition" onsubmit="event.preventDefault(); saveExpedition();">
+ <div class="form-section">
+ <div class="form-section-title">Informations générales</div>
+ <div class="form-grid cols-3">
+ <div class="form-field">
+ <label>Référence <span class="required">*</span></label>
+ <input type="text" id="f-reference" required class="mono" placeholder="COL-2026-0001">
+ </div>
+ <div class="form-field">
+ <label>Date <span class="required">*</span></label>
+ <input type="date" id="f-date" required>
+ </div>
+ <div class="form-field">
+ <label>Statut</label>
+ <select id="f-status">
+ <option value="draft">Brouillon</option>
+ <option value="confirmed">Confirmée</option>
+ <option value="shipped">Expédiée</option>
+ <option value="delivered">Livrée</option>
+ </select>
+ </div>
+ <div class="form-field full">
+ <label>Description marchandise <span class="optional">(optionnel)</span></label>
+ <input type="text" id="f-description" placeholder="Pièces auto, électroménager, effets personnels…">
+ </div>
+ </div>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Expéditeur</div>
+ <div class="form-grid">
+ <div class="form-field">
+ <label>Nom <span class="required">*</span></label>
+ <input type="text" id="f-exp-nom" required>
+ </div>
+ <div class="form-field">
+ <label>Téléphone <span class="optional">(optionnel)</span></label>
+ <input type="tel" id="f-exp-tel" class="mono">
+ </div>
+ <div class="form-field full">
+ <label>Adresse <span class="optional">(optionnel)</span></label>
+ <textarea id="f-exp-adresse" rows="2"></textarea>
+ </div>
+ </div>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Destinataire</div>
+ <div class="form-grid">
+ <div class="form-field">
+ <label>Nom <span class="required">*</span></label>
+ <input type="text" id="f-dest-nom" required>
+ </div>
+ <div class="form-field">
+ <label>Téléphone <span class="optional">(optionnel)</span></label>
+ <input type="tel" id="f-dest-tel" class="mono">
+ </div>
+ <div class="form-field full">
+ <label>Adresse <span class="optional">(optionnel)</span></label>
+ <textarea id="f-dest-adresse" rows="2"></textarea>
+ </div>
+ </div>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Lots de colisage</div>
+ <div id="lotsContainer"></div>
+ <button type="button" class="add-lot-btn" onclick="addLot()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+ Ajouter un lot
+ </button>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Tarification <span style="font-weight:400;color:var(--brass);text-transform:none;letter-spacing:0;">(optionnelle — laisser vide si selon quotation)</span></div>
+ <div class="form-grid cols-3">
+ <div class="form-field">
+ <label>Mode</label>
+ <select id="f-tarif-mode" onchange="updateTarifMode()">
+ <option value="none">Selon quotation</option>
+ <option value="volume">Au m³</option>
+ <option value="wm">Au W/M</option>
+ <option value="forfait">Forfait</option>
+ </select>
+ </div>
+ <div class="form-field">
+ <label id="f-tarif-label">Tarif</label>
+ <input type="number" id="f-tarif-value" class="mono" step="0.01" min="0" placeholder="0.00" oninput="recomputeTotals()">
+ </div>
+ <div class="form-field">
+ <label>Devise</label>
+ <select id="f-devise" onchange="recomputeTotals()">
+ <option value="EUR">EUR</option>
+ <option value="USD">USD</option>
+ <option value="XOF">XOF (F CFA)</option>
+ <option value="KMF">KMF (Comores)</option>
+ <option value="GBP">GBP</option>
+ </select>
+ </div>
+ </div>
+ </div>
+ <div class="totals-card" id="totalsCard">
+ <div class="totals-grid">
+ <div class="total-item highlight">
+ <div class="label">Volume total ★</div>
+ <div class="value"><span id="t-volume">0.000</span><span class="unit">m³</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Poids brut</div>
+ <div class="value"><span id="t-poids">—</span><span class="unit">kg</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Poids volumétrique</div>
+ <div class="value"><span id="t-poidsvol">0</span><span class="unit">kg</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">W/M</div>
+ <div class="value"><span id="t-wm">0.000</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix lots (∑ unitaires)</div>
+ <div class="value"><span id="t-prix-lots">—</span><span class="unit t-devise">EUR</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix calculé (tarif)</div>
+ <div class="value"><span id="t-prix-tarif">—</span><span class="unit t-devise">EUR</span></div>
+ </div>
+ <div class="total-item highlight">
+ <div class="label">Prix total ★</div>
+ <div class="value"><span id="t-prix">—</span><span class="unit t-devise">EUR</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix au m³ effectif</div>
+ <div class="value"><span id="t-prix-m3">—</span><span class="unit t-devise">EUR</span><span class="unit">/m³</span></div>
+ </div>
+ </div>
+ </div>
+ <div class="form-section" style="margin-top:20px;">
+ <div class="form-section-title">Photos des colis <span style="font-weight:400;color:var(--brass);text-transform:none;letter-spacing:0;">(optionnel)</span></div>
+ <div class="photos-controls">
+ <button type="button" class="btn btn-secondary photo-btn" onclick="document.getElementById('photoInputGallery').click()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+ Depuis la galerie
+ </button>
+ <button type="button" class="btn btn-secondary photo-btn" onclick="document.getElementById('photoInputCamera').click()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+ Prendre une photo
+ </button>
+ <input type="file" id="photoInputGallery" accept="image/*" multiple style="display:none;" onchange="handlePhotoUpload(event)">
+ <input type="file" id="photoInputCamera" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoUpload(event)">
+ <span class="photos-counter" id="photosCounter">0 photo</span>
+ </div>
+ <div class="photos-grid" id="photosGrid"></div>
+ <div class="photos-help" id="photosHelp">
+ Conseil : prenez les colis sous différents angles, leur état avant chargement, les étiquettes, le bordereau d'expédition. Les photos sont redimensionnées automatiquement pour économiser l'espace.
+ </div>
+ </div>
+ <div class="form-section" style="margin-top:20px;">
+ <div class="form-section-title">Notes <span style="font-weight:400;color:var(--brass);text-transform:none;letter-spacing:0;">(optionnel)</span></div>
+ <div class="form-field">
+ <textarea id="f-notes" rows="2" placeholder="Manutention spéciale, douane, instructions de livraison…"></textarea>
+ </div>
+ </div>
+ </form>
+ </div>
+ <div class="modal-footer">
+ <button class="btn btn-ghost" onclick="closeExpeditionModal()">Annuler</button>
+ <button class="btn btn-primary" onclick="saveExpedition()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+ Enregistrer
+ </button>
+ </div>
+ </div>
+</div>
+<div class="modal" id="modalDetail">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h2 id="modalDetailTitle">Détail expédition</h2>
+ <button class="modal-close" onclick="closeDetail()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="modal-body" id="detailBody"></div>
+ <div class="modal-footer">
+ <button class="btn btn-ghost" onclick="closeDetail()">Fermer</button>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;">
+ <button class="btn btn-secondary" onclick="printDetail()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+ Imprimer
+ </button>
+ <button class="btn btn-secondary" onclick="duplicateCurrent()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+ Dupliquer
+ </button>
+ <button class="btn btn-primary" onclick="editCurrent()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+ Modifier
+ </button>
+ </div>
+ </div>
+ </div>
+</div>
+<div class="modal" id="modalCatalog">
+ <div class="modal-content" style="max-width:880px;">
+ <div class="modal-header">
+ <h2>Catalogues de standards</h2>
+ <button class="modal-close" onclick="closeCatalog()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="modal-body" id="catalogBody"></div>
+ <div class="modal-footer">
+ <span style="font-size:12px;color:var(--brass-dim);">Cliquez sur un standard dans le formulaire pour l'utiliser</span>
+ <button class="btn btn-primary" onclick="closeCatalog()">Fermer</button>
+ </div>
+ </div>
+</div>
+<div class="modal" id="modalUserCatalog">
+ <div class="modal-content" style="max-width:560px;">
+ <div class="modal-header">
+ <h2 id="ucf-title">Nouveau standard</h2>
+ <button class="modal-close" onclick="closeUserCatalogForm()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="modal-body">
+ <div class="form-section">
+ <div class="form-section-title">Informations</div>
+ <div class="form-grid">
+ <div class="form-field full">
+ <label>Nom du standard <span class="required">*</span></label>
+ <input type="text" id="ucf-label" placeholder="Ex: Fût huile palme 50L, Caisse spéciale moto…">
+ </div>
+ <div class="form-field full">
+ <label>Forme <span class="required">*</span></label>
+ <select id="ucf-shape" onchange="updateUserCatalogFormFields()">
+ <option value="box">▢ Boîte rectangulaire (carton, caisse, électroménager…)</option>
+ <option value="cyl">○ Cylindre (fût, bidon, tonneau…)</option>
+ </select>
+ </div>
+ </div>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Dimensions</div>
+ <div class="form-grid cols-3">
+ <div id="ucf-box-fields" style="display:contents;">
+ <div class="form-field">
+ <label>Longueur (cm) <span class="required">*</span></label>
+ <input type="number" id="ucf-L" min="0" step="0.1" class="mono" oninput="recomputeUserCatalogVolume()">
+ </div>
+ <div class="form-field">
+ <label>Largeur (cm) <span class="required">*</span></label>
+ <input type="number" id="ucf-l" min="0" step="0.1" class="mono" oninput="recomputeUserCatalogVolume()">
+ </div>
+ </div>
+ <div id="ucf-cyl-fields" style="display:none;">
+ <div class="form-field full">
+ <label>Diamètre (cm) <span class="required">*</span></label>
+ <input type="number" id="ucf-D" min="0" step="0.1" class="mono" oninput="recomputeUserCatalogVolume()">
+ <div class="help">Le rayon = diamètre ÷ 2 — l'app calcule le reste</div>
+ </div>
+ </div>
+ <div class="form-field">
+ <label>Hauteur (cm) <span class="required">*</span></label>
+ <input type="number" id="ucf-H" min="0" step="0.1" class="mono" oninput="recomputeUserCatalogVolume()">
+ </div>
+ </div>
+ <div class="ucf-volume-display">
+ <span class="label">Volume calculé automatiquement</span>
+ <span id="ucf-volume">—</span>
+ </div>
+ </div>
+ <div class="form-section">
+ <div class="form-section-title">Compléments <span style="font-weight:400;color:var(--brass);text-transform:none;letter-spacing:0;">(optionnels)</span></div>
+ <div class="form-grid">
+ <div class="form-field">
+ <label>Poids à vide (kg)</label>
+ <input type="number" id="ucf-P" min="0" step="0.1" class="mono">
+ <div class="help">Poids du contenant vide (info indicative)</div>
+ </div>
+ <div class="form-field">
+ <label>Note</label>
+ <input type="text" id="ucf-note" placeholder="Ex: alimentaire, métal, étanche…">
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="modal-footer">
+ <button class="btn btn-ghost" onclick="closeUserCatalogForm()">Annuler</button>
+ <button class="btn btn-primary" onclick="saveUserCatalogItem()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+ Enregistrer
+ </button>
+ </div>
+ </div>
+</div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+ <button class="lightbox-close" onclick="closeLightbox(event, true)" title="Fermer">
+ <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ <button class="lightbox-nav prev" onclick="lightboxNav(-1, event)" title="Précédente">‹</button>
+ <img class="lightbox-img" id="lightboxImg" alt="">
+ <button class="lightbox-nav next" onclick="lightboxNav(1, event)" title="Suivante">›</button>
+ <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
+<div class="modal" id="modalAbout">
+ <div class="modal-content" style="max-width:520px;">
+ <div class="modal-header">
+ <h2>SPEEDZONE</h2>
+ <button class="modal-close" onclick="closeAbout()">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+ </button>
+ </div>
+ <div class="modal-body">
+ <div style="text-align:center;margin-bottom:20px;">
+ <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--coral-deep);">SPEED<span style="color:var(--brass);">ZONE</span></div>
+ <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.2em;color:var(--brass);margin-top:8px;">TRANSIT MARITIME FRANCE ⟷ COMORES</div>
+ <div style="font-style:italic;color:var(--brass-dim);margin-top:12px;">"Comores sans souci, colis bien protégés"</div>
+ </div>
+ <div class="detail-section">
+ <div class="detail-section-title">Coordonnées</div>
+ <div class="detail-row" style="margin-bottom:8px;">
+ <div class="detail-label">Adresse</div>
+ <div class="detail-value">1, rue Ferdinand de Lesseps<br>72100 Le Mans · France</div>
+ </div>
+ <div class="detail-row" style="margin-bottom:8px;">
+ <div class="detail-label">Téléphone (France)</div>
+ <div class="detail-value mono">+33 7 69 33 78 72</div>
+ </div>
+ <div class="detail-row" style="margin-bottom:8px;">
+ <div class="detail-label">Téléphone (Comores)</div>
+ <div class="detail-value mono">+269 342 42 01</div>
+ </div>
+ <div class="detail-row" style="margin-bottom:8px;">
+ <div class="detail-label">Site</div>
+ <div class="detail-value">www.speedzone.fr</div>
+ </div>
+ <div class="detail-row">
+ <div class="detail-label">Email</div>
+ <div class="detail-value">contact@speedzone.cloud</div>
+ </div>
+ </div>
+ <div class="detail-section">
+ <div class="detail-section-title">Application</div>
+ <p style="font-size:13px;color:var(--ink-soft);line-height:1.5;">Gestion des colisages maritimes LCL. Calculs automatiques (volume m³, poids volumétrique, W/M Weight or Measure). Données sauvegardées localement sur votre appareil. Pensez à exporter régulièrement la sauvegarde JSON pour ne rien perdre.</p>
+ <p style="font-size:12px;color:var(--brass-dim);margin-top:10px;font-style:italic;">Version 2.0 — installable hors-ligne</p>
+ </div>
+ </div>
+ <div class="modal-footer">
+ <button class="btn btn-primary" onclick="closeAbout()" style="width:100%;justify-content:center;">Fermer</button>
+ </div>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importInput" accept=".json" style="display:none;" onchange="handleImportFile(event)">
+<script>
+// ═══════════════════════════════════════════════════════════
+// CATALOGUES DE STANDARDS
+// ═══════════════════════════════════════════════════════════
+const CATALOG = {
+ palettes: [
+ { id: 'pal-eur', label: 'Palette EUR', L: 120, l: 80, H: null, note: 'hauteur selon chargement' },
+ { id: 'pal-us', label: 'Palette US', L: 120, l: 100, H: null, note: 'hauteur selon chargement' },
+ { id: 'pal-demi',label: 'Demi-palette', L: 80, l: 60, H: null, note: 'hauteur selon chargement' }
+ ],
+ vehicules: [
+ { id: 'voit-citad', label: 'Citadine (Clio, 208)', L: 400, l: 175, H: 150, P: 1100 },
+ { id: 'voit-comp', label: 'Compacte (308, Golf)', L: 440, l: 180, H: 150, P: 1350 },
+ { id: 'voit-berl', label: 'Berline', L: 480, l: 185, H: 150, P: 1500 },
+ { id: 'voit-suv', label: 'SUV / 4×4', L: 460, l: 185, H: 170, P: 1600 },
+ { id: 'voit-4x4', label: '4×4 grand', L: 500, l: 195, H: 185, P: 2200 },
+ { id: 'voit-pick', label: 'Pick-up', L: 530, l: 185, H: 185, P: 2100 },
+ { id: 'velo', label: 'Vélo (démonté)', L: 180, l: 35, H: 110, P: 15 },
+ { id: 'scoot-50', label: 'Scooter 50cc', L: 175, l: 70, H: 110, P: 95 },
+ { id: 'scoot-125', label: 'Scooter 125cc', L: 190, l: 75, H: 115, P: 145 },
+ { id: 'moto-r', label: 'Moto routière', L: 215, l: 85, H: 125, P: 220 }
+ ],
+ electromenager: [
+ { id: 'frigo-1p', label: 'Réfrigérateur 1 porte', L: 60, l: 65, H: 175, P: 65 },
+ { id: 'frigo-am', label: 'Frigo américain', L: 90, l: 75, H: 180, P: 130 },
+ { id: 'cong-c200', label: 'Congélateur coffre 200L', L: 95, l: 60, H: 85, P: 40 },
+ { id: 'cong-c400', label: 'Congélateur coffre 400L', L: 130, l: 70, H: 90, P: 65 },
+ { id: 'cong-arm', label: 'Congélateur armoire', L: 60, l: 65, H: 170, P: 75 },
+ { id: 'lave-l', label: 'Lave-linge', L: 60, l: 60, H: 85, P: 70 },
+ { id: 'seche-l', label: 'Sèche-linge', L: 60, l: 60, H: 85, P: 45 },
+ { id: 'lave-v', label: 'Lave-vaisselle', L: 60, l: 60, H: 85, P: 50 },
+ { id: 'cuisin', label: 'Cuisinière', L: 60, l: 60, H: 90, P: 55 },
+ { id: 'tv-55', label: 'TV 55"', L: 130, l: 15, H: 80, P: 20 },
+ { id: 'tv-65', label: 'TV 65"', L: 150, l: 15, H: 90, P: 30 },
+ { id: 'tv-75', label: 'TV 75"', L: 170, l: 15, H: 100, P: 45 }
+ ],
+ cartons: [
+ { id: 'cart-pet', label: 'Petit carton', L: 40, l: 30, H: 25 },
+ { id: 'cart-moy', label: 'Carton moyen', L: 50, l: 40, H: 30 },
+ { id: 'cart-std', label: 'Carton standard', L: 60, l: 40, H: 40 },
+ { id: 'cart-grd', label: 'Grand carton', L: 80, l: 60, H: 50 }
+ ],
+ // ─── Fûts & bidons (cylindres : V = π × r² × h) ───
+ // shape: 'cyl', D = diamètre, H = hauteur (cm), P = poids à vide (kg)
+ futs: [
+ { id: 'bid-5', label: 'Bidon 5 L', shape: 'cyl', D: 17, H: 27, P: 0.3, note: 'plastique' },
+ { id: 'bid-10', label: 'Bidon 10 L', shape: 'cyl', D: 23, H: 30, P: 0.5, note: 'plastique' },
+ { id: 'bid-20', label: 'Bidon 20 L', shape: 'cyl', D: 28, H: 38, P: 0.9, note: 'plastique / jerrican' },
+ { id: 'bid-25', label: 'Bidon 25 L', shape: 'cyl', D: 30, H: 40, P: 1.1, note: 'plastique alimentaire' },
+ { id: 'bid-30', label: 'Bidon 30 L', shape: 'cyl', D: 32, H: 42, P: 1.3, note: 'plastique alimentaire' },
+ { id: 'fut-60', label: 'Fût 60 L plastique', shape: 'cyl', D: 40, H: 60, P: 4, note: 'col large' },
+ { id: 'fut-120', label: 'Fût 120 L plastique', shape: 'cyl', D: 50, H: 75, P: 7, note: 'col large' },
+ { id: 'fut-200p', label: 'Fût 200 L plastique', shape: 'cyl', D: 60, H: 95, P: 10, note: 'standard transport' },
+ { id: 'fut-200m', label: 'Fût 200 L métal', shape: 'cyl', D: 58, H: 88, P: 22, note: 'fût acier standard' },
+ { id: 'fut-220', label: 'Fût 220 L métal', shape: 'cyl', D: 60, H: 91, P: 24, note: 'fût acier renforcé' },
+ { id: 'ibc-1000', label: 'IBC / Cubitainer 1000 L', shape: 'box', L: 120, l: 100, H: 116, P: 65, note: 'palette intégrée' }
+ ]
+};
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+const STORAGE_KEY = 'speedzone_expeditions_v2';
+const SETTINGS_KEY = 'speedzone_settings_v2';
+let expeditions = [];
+let editingId = null;
+let currentDetailId = null;
+let lots = []; // lots du formulaire en cours
+let deferredPrompt = null;
+// ═══════════════════════════════════════════════════════════
+// PERSISTENCE — localStorage (fiable, marche partout)
+// ═══════════════════════════════════════════════════════════
+function loadData() {
+ try {
+ const raw = localStorage.getItem(STORAGE_KEY);
+ expeditions = raw ? JSON.parse(raw) : [];
+ } catch (e) {
+ console.error('loadData error:', e);
+ expeditions = [];
+ showToast('Erreur de lecture des données — démarrage à vide', 'error');
+ }
+ render();
+}
+function saveData() {
+ try {
+ localStorage.setItem(STORAGE_KEY, JSON.stringify(expeditions));
+ return true;
+ } catch (e) {
+ console.error('saveData error:', e);
+ // Probablement QuotaExceededError — localStorage plein (souvent à cause des photos)
+ if (e.name === 'QuotaExceededError' || e.code === 22 || e.code === 1014) {
+ showToast('⚠️ Espace plein — exportez la sauvegarde JSON, puis réduisez le nombre de photos', 'error');
+ } else {
+ showToast('Erreur de sauvegarde', 'error');
+ }
+ return false;
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+function formatNumber(n, decimals = 2) {
+ if (n === null || n === undefined || isNaN(n)) return '—';
+ return Number(n).toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+function formatInt(n) {
+ if (n === null || n === undefined || isNaN(n)) return '—';
+ return Number(n).toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+}
+function formatDate(d) {
+ if (!d) return '—';
+ try {
+ const [y, m, day] = d.split('-');
+ return `${day}/${m}/${y}`;
+ } catch { return d; }
+}
+function generateRef() {
+ const year = new Date().getFullYear();
+ const refs = expeditions
+ .map(e => e.reference)
+ .filter(r => r && r.startsWith(`COL-${year}-`))
+ .map(r => parseInt(r.split('-')[2], 10))
+ .filter(n => !isNaN(n));
+ const next = (refs.length ? Math.max(...refs) : 0) + 1;
+ return `COL-${year}-${String(next).padStart(4, '0')}`;
+}
+function generateId() {
+ return 'exp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+}
+function generateLotId() {
+ return 'lot_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+}
+// ═══════════════════════════════════════════════════════════
+// CALCULS
+// ═══════════════════════════════════════════════════════════
+function computeLot(lot) {
+ const nb = Number(lot.nb) || 0;
+ const poidsU = lot.poidsU === '' || lot.poidsU == null ? null : Number(lot.poidsU);
+ let volUnit = 0;
+ if (lot.shape === 'cyl') {
+ // Cylindre : V = π × (D/2)² × H
+ const D = Number(lot.D) || 0;
+ const H = Number(lot.H) || 0;
+ const r = D / 2;
+ volUnit = (Math.PI * r * r * H) / 1000000; // cm³ → m³
+ } else {
+ // Boîte rectangulaire (par défaut)
+ const L = Number(lot.L) || 0;
+ const l = Number(lot.l) || 0;
+ const H = Number(lot.H) || 0;
+ volUnit = (L * l * H) / 1000000;
+ }
+ const volTot = volUnit * nb;
+ const poidsVol = volTot * 1000;
+ const poidsBrut = poidsU != null ? poidsU * nb : null;
+ const poidsTax = poidsBrut != null ? Math.max(poidsBrut, poidsVol) : poidsVol;
+ return { volUnit, volTot, poidsVol, poidsBrut, poidsTax };
+}
+function computeExpeditionTotals(exp) {
+ let volTot = 0, poidsBrutTot = 0, poidsTaxTot = 0;
+ let hasAllPoids = true;
+ let prixLots = 0;
+ let hasAnyPrixLot = false;
+ for (const lot of exp.lots || []) {
+ const c = computeLot(lot);
+ volTot += c.volTot;
+ if (c.poidsBrut != null) {
+ poidsBrutTot += c.poidsBrut;
+ } else {
+ hasAllPoids = false;
+ }
+ poidsTaxTot += c.poidsTax;
+ // Somme des prix saisis au niveau du lot (prixU × nb)
+ const prixU = lot.prixU === '' || lot.prixU == null ? null : Number(lot.prixU);
+ const nb = Number(lot.nb) || 0;
+ if (prixU != null && prixU > 0 && nb > 0) {
+ prixLots += prixU * nb;
+ hasAnyPrixLot = true;
+ }
+ }
+ const poidsVolTot = volTot * 1000;
+ const wm = Math.max(volTot, (poidsBrutTot || 0) / 1000);
+ // Prix calculé à partir du tarif (volume / W/M / forfait)
+ let prixTarif = null;
+ const mode = exp.tarif?.mode;
+ const val = Number(exp.tarif?.value) || 0;
+ if (mode === 'volume' && val > 0) prixTarif = volTot * val;
+ else if (mode === 'wm' && val > 0) prixTarif = wm * val;
+ else if (mode === 'forfait' && val > 0) prixTarif = val;
+ // Prix total affiché : priorité au tarif, sinon somme des lots
+ const prix = prixTarif != null ? prixTarif : (hasAnyPrixLot ? prixLots : null);
+ // Prix au m³ effectif (utile pour comparer la rentabilité)
+ const prixParM3 = (prix != null && volTot > 0) ? prix / volTot : null;
+ return {
+ volTot,
+ poidsBrutTot: hasAllPoids && poidsBrutTot > 0 ? poidsBrutTot : null,
+ poidsVolTot,
+ poidsTaxTot,
+ wm,
+ prixLots: hasAnyPrixLot ? prixLots : null, // somme des lots
+ prixTarif, // calculé via tarif
+ prix, // prix total final (tarif sinon lots)
+ prixParM3 // €/m³ effectif
+ };
+}
+// ═══════════════════════════════════════════════════════════
+// MODAL EXPEDITION — LOTS MANAGEMENT
+// ═══════════════════════════════════════════════════════════
+function addLot(prefill = null) {
+ const lot = {
+ id: generateLotId(),
+ shape: prefill?.shape || 'box', // 'box' (rectangulaire) ou 'cyl' (cylindre)
+ designation: prefill?.designation || '',
+ nb: prefill?.nb || 1,
+ L: prefill?.L || '',
+ l: prefill?.l || '',
+ H: prefill?.H || '',
+ D: prefill?.D || '', // diamètre (pour cylindres)
+ poidsU: prefill?.poidsU || '',
+ prixU: prefill?.prixU || ''
+ };
+ lots.push(lot);
+ renderLots();
+}
+function removeLot(id) {
+ lots = lots.filter(l => l.id !== id);
+ renderLots();
+}
+function updateLot(id, field, value) {
+ const lot = lots.find(l => l.id === id);
+ if (lot) {
+ lot[field] = value;
+ updateLotSummary(id);
+ recomputeTotals();
+ }
+}
+function toggleLotShape(id, newShape) {
+ const lot = lots.find(l => l.id === id);
+ if (!lot) return;
+ lot.shape = newShape;
+ // On garde les valeurs déjà saisies, mais on bascule l'affichage
+ renderLots();
+}
+function updateLotSummary(id) {
+ const lot = lots.find(l => l.id === id);
+ if (!lot) return;
+ const c = computeLot(lot);
+ const summaryEl = document.querySelector(`[data-lot-summary="${id}"]`);
+ if (!summaryEl) return;
+ const devise = document.getElementById('f-devise')?.value || 'EUR';
+ const prixU = lot.prixU === '' || lot.prixU == null ? null : Number(lot.prixU);
+ const nb = Number(lot.nb) || 0;
+ const subTotal = (prixU != null && prixU > 0 && nb > 0) ? prixU * nb : null;
+ summaryEl.innerHTML = `
+ <div class="lot-summary-item volume">
+ Volume <strong>${formatNumber(c.volTot, 3)} m³</strong>
+ </div>
+ <div class="lot-summary-item">
+ Poids brut <strong>${c.poidsBrut != null ? formatNumber(c.poidsBrut, 2) + ' kg' : '—'}</strong>
+ </div>
+ <div class="lot-summary-item">
+ Poids taxable <strong>${formatNumber(c.poidsTax, 2)} kg</strong>
+ </div>
+ <div class="lot-summary-item price">
+ Sous-total prix <strong>${subTotal != null ? formatNumber(subTotal, 2) + ' ' + devise : '—'}</strong>
+ </div>
+ `;
+}
+function applyCatalogToLot(lotId, category, itemId) {
+ // Cherche d'abord dans le catalogue par défaut, puis dans le catalogue utilisateur
+ let item = (CATALOG[category] || []).find(x => x.id === itemId);
+ if (!item) {
+ item = userCatalog.find(x => x.id === itemId);
+ }
+ if (!item) return;
+ const lot = lots.find(l => l.id === lotId);
+ if (!lot) return;
+ lot.designation = item.label;
+ if (item.shape === 'cyl') {
+ lot.shape = 'cyl';
+ if (item.D) lot.D = item.D;
+ if (item.H) lot.H = item.H;
+ // Reset box dimensions
+ lot.L = '';
+ lot.l = '';
+ } else {
+ lot.shape = 'box';
+ if (item.L) lot.L = item.L;
+ if (item.l) lot.l = item.l;
+ if (item.H) lot.H = item.H;
+ lot.D = '';
+ }
+ if (item.P) lot.poidsU = item.P;
+ renderLots();
+ showToast(`Standard appliqué : ${item.label}`, 'success');
+}
+function renderLots() {
+ const container = document.getElementById('lotsContainer');
+ if (lots.length === 0) {
+ container.innerHTML = '<p style="color:var(--brass-dim);font-size:13px;font-style:italic;padding:12px 0;text-align:center;">Aucun lot — cliquez sur « Ajouter un lot » ci-dessous</p>';
+ recomputeTotals();
+ return;
+ }
+ container.innerHTML = lots.map((lot, idx) => {
+ const c = computeLot(lot);
+ const isCyl = lot.shape === 'cyl';
+ // Champs dimensionnels selon la forme
+ const dimensionsHtml = isCyl ? `
+ <div class="form-field">
+ <label>Diamètre (cm)</label>
+ <input type="number" min="0" step="0.1" value="${lot.D}" class="mono"
+ oninput="updateLot('${lot.id}', 'D', this.value)">
+ </div>
+ <div class="form-field">
+ <label>Hauteur (cm)</label>
+ <input type="number" min="0" step="0.1" value="${lot.H}" class="mono"
+ oninput="updateLot('${lot.id}', 'H', this.value)">
+ </div>
+ <div class="form-field">
+ <label style="color:var(--brass-dim);">Volume calculé</label>
+ <input type="text" value="${lot.D && lot.H ? formatNumber(c.volUnit * 1000, 2) + ' L' : '—'}" class="mono" readonly style="background:var(--sand);color:var(--coral-deep);font-weight:600;">
+ </div>
+ ` : `
+ <div class="form-field">
+ <label>Longueur (cm)</label>
+ <input type="number" min="0" step="0.1" value="${lot.L}" class="mono"
+ oninput="updateLot('${lot.id}', 'L', this.value)">
+ </div>
+ <div class="form-field">
+ <label>Largeur (cm)</label>
+ <input type="number" min="0" step="0.1" value="${lot.l}" class="mono"
+ oninput="updateLot('${lot.id}', 'l', this.value)">
+ </div>
+ <div class="form-field">
+ <label>Hauteur (cm)</label>
+ <input type="number" min="0" step="0.1" value="${lot.H}" class="mono"
+ oninput="updateLot('${lot.id}', 'H', this.value)">
+ </div>
+ `;
+ return `
+ <div class="lot-card">
+ <div class="lot-card-header">
+ <div class="lot-card-title">Lot ${idx + 1}</div>
+ <div style="display:flex;gap:8px;align-items:center;">
+ <div class="shape-toggle">
+ <button type="button" class="shape-btn ${!isCyl ? 'active' : ''}" onclick="toggleLotShape('${lot.id}', 'box')" title="Boîte rectangulaire">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="1"/></svg>
+ Boîte
+ </button>
+ <button type="button" class="shape-btn ${isCyl ? 'active' : ''}" onclick="toggleLotShape('${lot.id}', 'cyl')" title="Cylindre (fût/bidon)">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="2.5"/><path d="M4 5v14a8 2.5 0 0 0 16 0V5"/></svg>
+ Cylindre
+ </button>
+ </div>
+ <button type="button" class="lot-card-remove" onclick="removeLot('${lot.id}')">
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+ Retirer
+ </button>
+ </div>
+ </div>
+ <div class="form-grid cols-3">
+ <div class="form-field full">
+ <label>Désignation</label>
+ <input type="text" value="${lot.designation || ''}"
+ oninput="updateLot('${lot.id}', 'designation', this.value)"
+ placeholder="${isCyl ? 'Fût 200L, bidon 25L, IBC…' : 'Carton, palette, congélateur, scooter…'}">
+ <div class="catalog-pick">
+ <span class="catalog-chip" onclick="showCatalogPicker('${lot.id}')">📦 Choisir un standard…</span>
+ </div>
+ </div>
+ <div class="form-field">
+ <label>Nombre</label>
+ <input type="number" min="1" value="${lot.nb}" class="mono"
+ oninput="updateLot('${lot.id}', 'nb', this.value)">
+ </div>
+ ${dimensionsHtml}
+ <div class="form-field">
+ <label>Poids unit. (kg) <span class="optional">opt.</span></label>
+ <input type="number" min="0" step="0.01" value="${lot.poidsU}" class="mono"
+ oninput="updateLot('${lot.id}', 'poidsU', this.value)">
+ </div>
+ <div class="form-field">
+ <label>Prix unit. <span class="optional">opt.</span></label>
+ <input type="number" min="0" step="0.01" value="${lot.prixU}" class="mono"
+ oninput="updateLot('${lot.id}', 'prixU', this.value)">
+ </div>
+ </div>
+ <div class="lot-summary" data-lot-summary="${lot.id}">
+ <div class="lot-summary-item volume">
+ Volume <strong>${formatNumber(c.volTot, 3)} m³</strong>
+ </div>
+ <div class="lot-summary-item">
+ Poids brut <strong>${c.poidsBrut != null ? formatNumber(c.poidsBrut, 2) + ' kg' : '—'}</strong>
+ </div>
+ <div class="lot-summary-item">
+ Poids taxable <strong>${formatNumber(c.poidsTax, 2)} kg</strong>
+ </div>
+ <div class="lot-summary-item price">
+ Sous-total prix <strong>${(lot.prixU && lot.nb) ? formatNumber(Number(lot.prixU) * Number(lot.nb), 2) + ' ' + (document.getElementById('f-devise')?.value || 'EUR') : '—'}</strong>
+ </div>
+ </div>
+ </div>
+ `;
+ }).join('');
+ recomputeTotals();
+}
+// ═══════════════════════════════════════════════════════════
+// CATALOG PICKER (in-form)
+// ═══════════════════════════════════════════════════════════
+let pickerLotId = null;
+function showCatalogPicker(lotId) {
+ pickerLotId = lotId;
+ openCatalog(true);
+}
+function pickCatalogItem(category, itemId) {
+ if (pickerLotId) {
+ applyCatalogToLot(pickerLotId, category, itemId);
+ pickerLotId = null;
+ closeCatalog();
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// REAL-TIME TOTALS
+// ═══════════════════════════════════════════════════════════
+function recomputeTotals() {
+ const tarifMode = document.getElementById('f-tarif-mode')?.value || 'none';
+ const tarifValue = document.getElementById('f-tarif-value')?.value || 0;
+ const devise = document.getElementById('f-devise')?.value || 'EUR';
+ const fakeExp = {
+ lots,
+ tarif: { mode: tarifMode, value: tarifValue }
+ };
+ const t = computeExpeditionTotals(fakeExp);
+ document.getElementById('t-volume').textContent = formatNumber(t.volTot, 3);
+ document.getElementById('t-poids').textContent = t.poidsBrutTot != null ? formatNumber(t.poidsBrutTot, 2) : '—';
+ document.getElementById('t-poidsvol').textContent = formatNumber(t.poidsVolTot, 2);
+ document.getElementById('t-wm').textContent = formatNumber(t.wm, 3);
+ document.getElementById('t-prix-lots').textContent = t.prixLots != null ? formatNumber(t.prixLots, 2) : '—';
+ document.getElementById('t-prix-tarif').textContent = t.prixTarif != null ? formatNumber(t.prixTarif, 2) : '—';
+ document.getElementById('t-prix').textContent = t.prix != null ? formatNumber(t.prix, 2) : '—';
+ document.getElementById('t-prix-m3').textContent = t.prixParM3 != null ? formatNumber(t.prixParM3, 2) : '—';
+ document.querySelectorAll('.t-devise').forEach(el => el.textContent = devise);
+}
+function updateTarifMode() {
+ const mode = document.getElementById('f-tarif-mode').value;
+ const label = document.getElementById('f-tarif-label');
+ const input = document.getElementById('f-tarif-value');
+ const labels = {
+ none: 'Tarif',
+ volume: 'Tarif par m³',
+ wm: 'Tarif par W/M',
+ forfait: 'Forfait total'
+ };
+ label.textContent = labels[mode];
+ input.disabled = (mode === 'none');
+ if (mode === 'none') input.value = '';
+ recomputeTotals();
+}
+// ═══════════════════════════════════════════════════════════
+// MODAL EXPEDITION — OPEN/CLOSE/SAVE
+// ═══════════════════════════════════════════════════════════
+function openExpeditionModal(id = null) {
+ editingId = id;
+ const modal = document.getElementById('modalExpedition');
+ const title = document.getElementById('modalExpeditionTitle');
+ if (id) {
+ const exp = expeditions.find(e => e.id === id);
+ if (!exp) return;
+ title.textContent = `Modifier ${exp.reference}`;
+ document.getElementById('f-reference').value = exp.reference || '';
+ document.getElementById('f-date').value = exp.date || '';
+ document.getElementById('f-status').value = exp.status || 'draft';
+ document.getElementById('f-description').value = exp.description || '';
+ document.getElementById('f-exp-nom').value = exp.expediteur?.nom || '';
+ document.getElementById('f-exp-tel').value = exp.expediteur?.tel || '';
+ document.getElementById('f-exp-adresse').value = exp.expediteur?.adresse || '';
+ document.getElementById('f-dest-nom').value = exp.destinataire?.nom || '';
+ document.getElementById('f-dest-tel').value = exp.destinataire?.tel || '';
+ document.getElementById('f-dest-adresse').value = exp.destinataire?.adresse || '';
+ document.getElementById('f-tarif-mode').value = exp.tarif?.mode || 'none';
+ document.getElementById('f-tarif-value').value = exp.tarif?.value || '';
+ document.getElementById('f-devise').value = exp.devise || 'EUR';
+ document.getElementById('f-notes').value = exp.notes || '';
+ lots = JSON.parse(JSON.stringify(exp.lots || []));
+ photos = JSON.parse(JSON.stringify(exp.photos || []));
+ updateTarifMode();
+ } else {
+ title.textContent = 'Nouvelle expédition';
+ document.getElementById('formExpedition').reset();
+ document.getElementById('f-reference').value = generateRef();
+ document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+ document.getElementById('f-status').value = 'draft';
+ document.getElementById('f-devise').value = 'EUR';
+ document.getElementById('f-tarif-mode').value = 'none';
+ lots = [];
+ photos = [];
+ addLot();
+ updateTarifMode();
+ }
+ renderLots();
+ renderPhotos();
+ modal.classList.add('active');
+ document.body.style.overflow = 'hidden';
+}
+function closeExpeditionModal() {
+ document.getElementById('modalExpedition').classList.remove('active');
+ document.body.style.overflow = '';
+ editingId = null;
+ lots = [];
+ photos = [];
+}
+function saveExpedition() {
+ const reference = document.getElementById('f-reference').value.trim();
+ const date = document.getElementById('f-date').value;
+ const expNom = document.getElementById('f-exp-nom').value.trim();
+ const destNom = document.getElementById('f-dest-nom').value.trim();
+ if (!reference || !date || !expNom || !destNom) {
+ showToast('Référence, date, expéditeur et destinataire sont requis', 'error');
+ return;
+ }
+ if (lots.length === 0) {
+ showToast('Ajoutez au moins un lot', 'error');
+ return;
+ }
+ // Validation des lots : selon la forme
+ const invalidLot = lots.findIndex(l => {
+ if (!l.nb || Number(l.nb) <= 0) return true;
+ if (l.shape === 'cyl') return !l.D || !l.H;
+ return !l.L || !l.l || !l.H;
+ });
+ if (invalidLot !== -1) {
+ const isCyl = lots[invalidLot].shape === 'cyl';
+ showToast(`Lot ${invalidLot + 1} : nombre + ${isCyl ? 'diamètre + hauteur' : 'L×l×H'} sont requis`, 'error');
+ return;
+ }
+ // Check référence unique (sauf si on édite la même)
+ const duplicate = expeditions.find(e => e.reference === reference && e.id !== editingId);
+ if (duplicate) {
+ showToast(`Référence ${reference} déjà utilisée`, 'error');
+ return;
+ }
+ const exp = {
+ id: editingId || generateId(),
+ reference,
+ date,
+ status: document.getElementById('f-status').value,
+ description: document.getElementById('f-description').value.trim(),
+ expediteur: {
+ nom: expNom,
+ tel: document.getElementById('f-exp-tel').value.trim(),
+ adresse: document.getElementById('f-exp-adresse').value.trim()
+ },
+ destinataire: {
+ nom: destNom,
+ tel: document.getElementById('f-dest-tel').value.trim(),
+ adresse: document.getElementById('f-dest-adresse').value.trim()
+ },
+ lots: lots.map(l => ({
+ id: l.id,
+ shape: l.shape || 'box',
+ designation: l.designation,
+ nb: Number(l.nb) || 0,
+ L: Number(l.L) || 0,
+ l: Number(l.l) || 0,
+ H: Number(l.H) || 0,
+ D: Number(l.D) || 0,
+ poidsU: l.poidsU === '' ? null : Number(l.poidsU),
+ prixU: l.prixU === '' ? null : Number(l.prixU)
+ })),
+ tarif: {
+ mode: document.getElementById('f-tarif-mode').value,
+ value: document.getElementById('f-tarif-value').value || 0
+ },
+ devise: document.getElementById('f-devise').value,
+ notes: document.getElementById('f-notes').value.trim(),
+ photos: photos.filter(p => !p.uploading && p.dataUrl), // exclure les placeholders en cours
+ createdAt: editingId ? (expeditions.find(e => e.id === editingId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+ updatedAt: new Date().toISOString()
+ };
+ if (editingId) {
+ expeditions = expeditions.map(e => e.id === editingId ? exp : e);
+ showToast(`${reference} mise à jour`, 'success');
+ } else {
+ expeditions.push(exp);
+ showToast(`${reference} enregistrée`, 'success');
+ }
+ if (saveData()) {
+ closeExpeditionModal();
+ render();
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// DETAIL VIEW
+// ═══════════════════════════════════════════════════════════
+function openDetail(id) {
+ const exp = expeditions.find(e => e.id === id);
+ if (!exp) return;
+ currentDetailId = id;
+ document.getElementById('modalDetailTitle').textContent = exp.reference;
+ const t = computeExpeditionTotals(exp);
+ const statusLabels = { draft: 'Brouillon', confirmed: 'Confirmée', shipped: 'Expédiée', delivered: 'Livrée' };
+ const lotsHtml = (exp.lots || []).map((lot, i) => {
+ const c = computeLot(lot);
+ const dimText = lot.shape === 'cyl'
+ ? `Ø${lot.D}×${lot.H}`
+ : `${lot.L}×${lot.l}×${lot.H}`;
+ const shapeIcon = lot.shape === 'cyl' ? '○' : '▢';
+ return `
+ <tr>
+ <td><span style="color:var(--brass);margin-right:6px;" title="${lot.shape === 'cyl' ? 'Cylindre' : 'Boîte'}">${shapeIcon}</span>${lot.designation || `Lot ${i+1}`}</td>
+ <td class="num">${lot.nb}</td>
+ <td class="num">${dimText}</td>
+ <td class="num">${formatNumber(c.volTot, 3)}</td>
+ <td class="num">${c.poidsBrut != null ? formatNumber(c.poidsBrut, 2) : '—'}</td>
+ <td class="num">${formatNumber(c.poidsTax, 2)}</td>
+ </tr>
+ `;
+ }).join('');
+ document.getElementById('detailBody').innerHTML = `
+ <div class="detail-section">
+ <div class="detail-section-title">Informations</div>
+ <div class="detail-grid">
+ <div class="detail-row"><div class="detail-label">Référence</div><div class="detail-value mono">${exp.reference}</div></div>
+ <div class="detail-row"><div class="detail-label">Date</div><div class="detail-value">${formatDate(exp.date)}</div></div>
+ <div class="detail-row"><div class="detail-label">Statut</div><div class="detail-value">${statusLabels[exp.status] || exp.status}</div></div>
+ <div class="detail-row"><div class="detail-label">Marchandise</div><div class="detail-value ${!exp.description ? 'empty' : ''}">${exp.description || 'Non renseignée'}</div></div>
+ </div>
+ </div>
+ <div class="detail-section">
+ <div class="detail-section-title">Expéditeur</div>
+ <div class="detail-grid">
+ <div class="detail-row"><div class="detail-label">Nom</div><div class="detail-value">${exp.expediteur?.nom || '—'}</div></div>
+ <div class="detail-row"><div class="detail-label">Téléphone</div><div class="detail-value mono ${!exp.expediteur?.tel ? 'empty' : ''}">${exp.expediteur?.tel || 'Non renseigné'}</div></div>
+ <div class="detail-row full"><div class="detail-label">Adresse</div><div class="detail-value ${!exp.expediteur?.adresse ? 'empty' : ''}" style="white-space:pre-line;">${exp.expediteur?.adresse || 'Non renseignée'}</div></div>
+ </div>
+ </div>
+ <div class="detail-section">
+ <div class="detail-section-title">Destinataire</div>
+ <div class="detail-grid">
+ <div class="detail-row"><div class="detail-label">Nom</div><div class="detail-value">${exp.destinataire?.nom || '—'}</div></div>
+ <div class="detail-row"><div class="detail-label">Téléphone</div><div class="detail-value mono ${!exp.destinataire?.tel ? 'empty' : ''}">${exp.destinataire?.tel || 'Non renseigné'}</div></div>
+ <div class="detail-row full"><div class="detail-label">Adresse</div><div class="detail-value ${!exp.destinataire?.adresse ? 'empty' : ''}" style="white-space:pre-line;">${exp.destinataire?.adresse || 'Non renseignée'}</div></div>
+ </div>
+ </div>
+ <div class="detail-section">
+ <div class="detail-section-title">Détail des lots</div>
+ <table class="detail-lots-table">
+ <thead>
+ <tr><th>Désignation</th><th class="num">Qté</th><th class="num">Dim. (cm)</th><th class="num">Vol. m³</th><th class="num">Poids brut</th><th class="num">Taxable</th></tr>
+ </thead>
+ <tbody>${lotsHtml}</tbody>
+ </table>
+ </div>
+ <div class="totals-card" style="margin-top:20px;">
+ <div class="totals-grid">
+ <div class="total-item highlight">
+ <div class="label">Volume total ★</div>
+ <div class="value">${formatNumber(t.volTot, 3)}<span class="unit">m³</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Poids brut</div>
+ <div class="value">${t.poidsBrutTot != null ? formatNumber(t.poidsBrutTot, 2) : '—'}<span class="unit">kg</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Poids vol.</div>
+ <div class="value">${formatNumber(t.poidsVolTot, 2)}<span class="unit">kg</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Poids taxable</div>
+ <div class="value">${formatNumber(t.poidsTaxTot, 2)}<span class="unit">kg</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">W/M</div>
+ <div class="value">${formatNumber(t.wm, 3)}</div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix lots (∑)</div>
+ <div class="value">${t.prixLots != null ? formatNumber(t.prixLots, 2) : '—'}<span class="unit">${exp.devise || 'EUR'}</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix calculé (tarif)</div>
+ <div class="value">${t.prixTarif != null ? formatNumber(t.prixTarif, 2) : '—'}<span class="unit">${exp.devise || 'EUR'}</span></div>
+ </div>
+ <div class="total-item highlight">
+ <div class="label">Prix total ★</div>
+ <div class="value">${t.prix != null ? formatNumber(t.prix, 2) : '—'}<span class="unit">${exp.devise || 'EUR'}</span></div>
+ </div>
+ <div class="total-item">
+ <div class="label">Prix au m³ effectif</div>
+ <div class="value">${t.prixParM3 != null ? formatNumber(t.prixParM3, 2) : '—'}<span class="unit">${exp.devise || 'EUR'}/m³</span></div>
+ </div>
+ </div>
+ </div>
+ ${(() => {
+ const hasTarif = exp.tarif?.mode !== 'none' && Number(exp.tarif?.value) > 0;
+ const hasLots = t.prixLots != null;
+ if (hasTarif) {
+ const unite = exp.tarif.mode === 'volume' ? 'm³' : exp.tarif.mode === 'wm' ? 'W/M' : 'forfait';
+ return `<p style="font-size:12px;color:var(--brass-dim);margin-top:10px;font-style:italic;text-align:right;">
+ Tarif appliqué : ${formatNumber(exp.tarif.value, 2)} ${exp.devise}/${unite} → prix total = tarif appliqué
+ ${hasLots ? `<br><span style="color:var(--brass);">(la somme des prix saisis par lot vaut ${formatNumber(t.prixLots, 2)} ${exp.devise} — non utilisée car un tarif est défini)</span>` : ''}
+ </p>`;
+ } else if (hasLots) {
+ return `<p style="font-size:12px;color:var(--brass-dim);margin-top:10px;font-style:italic;text-align:right;">
+ Prix total = somme des sous-totaux des lots (aucun tarif global défini)
+ </p>`;
+ } else {
+ return `<p style="font-size:12px;color:var(--brass-dim);margin-top:10px;font-style:italic;text-align:right;">Prix selon quotation (non calculé)</p>`;
+ }
+ })()}
+ ${exp.photos && exp.photos.length > 0 ? `
+ <div class="detail-section" style="margin-top:20px;">
+ <div class="detail-section-title">Photos (${exp.photos.length})</div>
+ <div class="detail-photos-grid">
+ ${exp.photos.map((p, idx) => `
+ <div class="detail-photo" onclick="openLightbox(${idx}, 'detail')">
+ <img src="${p.dataUrl}" alt="${p.name || 'Photo'}" loading="lazy">
+ </div>
+ `).join('')}
+ </div>
+ </div>` : ''}
+ ${exp.notes ? `
+ <div class="detail-section" style="margin-top:20px;">
+ <div class="detail-section-title">Notes</div>
+ <div class="detail-value" style="white-space:pre-line;background:var(--sand);padding:14px;border-left:3px solid var(--coral);">${exp.notes}</div>
+ </div>` : ''}
+ `;
+ document.getElementById('modalDetail').classList.add('active');
+ document.body.style.overflow = 'hidden';
+}
+function closeDetail() {
+ document.getElementById('modalDetail').classList.remove('active');
+ document.body.style.overflow = '';
+ currentDetailId = null;
+}
+function editCurrent() {
+ if (!currentDetailId) return;
+ const id = currentDetailId;
+ closeDetail();
+ openExpeditionModal(id);
+}
+function duplicateCurrent() {
+ if (!currentDetailId) return;
+ const exp = expeditions.find(e => e.id === currentDetailId);
+ if (!exp) return;
+ closeDetail();
+ // Préparer nouvelle expédition basée sur l'actuelle
+ editingId = null;
+ openExpeditionModal();
+ document.getElementById('f-description').value = exp.description || '';
+ document.getElementById('f-exp-nom').value = exp.expediteur?.nom || '';
+ document.getElementById('f-exp-tel').value = exp.expediteur?.tel || '';
+ document.getElementById('f-exp-adresse').value = exp.expediteur?.adresse || '';
+ document.getElementById('f-dest-nom').value = exp.destinataire?.nom || '';
+ document.getElementById('f-dest-tel').value = exp.destinataire?.tel || '';
+ document.getElementById('f-dest-adresse').value = exp.destinataire?.adresse || '';
+ document.getElementById('f-tarif-mode').value = exp.tarif?.mode || 'none';
+ document.getElementById('f-tarif-value').value = exp.tarif?.value || '';
+ document.getElementById('f-devise').value = exp.devise || 'EUR';
+ lots = JSON.parse(JSON.stringify(exp.lots || [])).map(l => ({ ...l, id: generateLotId() }));
+ updateTarifMode();
+ renderLots();
+ showToast('Expédition dupliquée — modifiez puis enregistrez', 'success');
+}
+function deleteExpedition(id) {
+ const exp = expeditions.find(e => e.id === id);
+ if (!exp) return;
+ if (!confirm(`Supprimer l'expédition ${exp.reference} ? Cette action est irréversible.`)) return;
+ expeditions = expeditions.filter(e => e.id !== id);
+ if (saveData()) {
+ showToast('Expédition supprimée', 'success');
+ render();
+ }
+}
+function printDetail() {
+ window.print();
+}
+// ═══════════════════════════════════════════════════════════
+// CATALOG MODAL (avec onglets + catalogue personnalisé)
+// ═══════════════════════════════════════════════════════════
+const USER_CATALOG_KEY = 'speedzone_user_catalog_v2';
+let userCatalog = []; // chargé depuis localStorage
+let activeCatalogTab = 'palettes';
+function loadUserCatalog() {
+ try {
+ const raw = localStorage.getItem(USER_CATALOG_KEY);
+ userCatalog = raw ? JSON.parse(raw) : [];
+ } catch (e) {
+ userCatalog = [];
+ }
+}
+function saveUserCatalog() {
+ try {
+ localStorage.setItem(USER_CATALOG_KEY, JSON.stringify(userCatalog));
+ return true;
+ } catch (e) {
+ showToast('Erreur de sauvegarde du catalogue', 'error');
+ return false;
+ }
+}
+const CATALOG_TABS = [
+ { key: 'palettes', label: 'Palettes', icon: '🟫' },
+ { key: 'vehicules', label: 'Véhicules', icon: '🚗' },
+ { key: 'electromenager', label: 'Électroménager',icon: '🧊' },
+ { key: 'cartons', label: 'Cartons', icon: '📦' },
+ { key: 'futs', label: 'Fûts & Bidons', icon: '🛢️' },
+ { key: 'user', label: 'Mes standards', icon: '⭐' }
+];
+function openCatalog(pickerMode = false) {
+ document.getElementById('modalCatalog').dataset.pickerMode = pickerMode ? '1' : '0';
+ renderCatalog();
+ document.getElementById('modalCatalog').classList.add('active');
+ document.body.style.overflow = 'hidden';
+}
+function switchCatalogTab(tabKey) {
+ activeCatalogTab = tabKey;
+ renderCatalog();
+}
+function renderCatalog() {
+ const pickerMode = document.getElementById('modalCatalog').dataset.pickerMode === '1';
+ const body = document.getElementById('catalogBody');
+ const tabsHtml = `
+ <div class="catalog-tabs">
+ ${CATALOG_TABS.map(t => `
+ <button class="catalog-tab ${activeCatalogTab === t.key ? 'active' : ''}" onclick="switchCatalogTab('${t.key}')">
+ <span class="catalog-tab-icon">${t.icon}</span>
+ <span>${t.label}</span>
+ ${t.key === 'user' && userCatalog.length > 0 ? `<span class="catalog-tab-badge">${userCatalog.length}</span>` : ''}
+ </button>
+ `).join('')}
+ </div>
+ `;
+ let contentHtml = '';
+ if (activeCatalogTab === 'user') {
+ contentHtml = renderUserCatalog(pickerMode);
+ } else {
+ const items = CATALOG[activeCatalogTab] || [];
+ contentHtml = renderCatalogItems(items, activeCatalogTab, pickerMode, false);
+ }
+ body.innerHTML = tabsHtml + contentHtml;
+}
+function renderCatalogItems(items, category, pickerMode, isUser) {
+ if (items.length === 0) {
+ return `<div style="text-align:center;padding:40px 20px;color:var(--brass-dim);">
+ <div style="font-size:36px;margin-bottom:8px;">📭</div>
+ <p>Aucun standard dans cette catégorie</p>
+ </div>`;
+ }
+ return `
+ <div class="catalog-grid">
+ ${items.map(item => {
+ const isCyl = item.shape === 'cyl';
+ const dimText = isCyl
+ ? `Ø ${item.D} × ${item.H} cm`
+ : `${item.L || '?'} × ${item.l || '?'} × ${item.H || '?'} cm`;
+ // Calcul auto du volume pour affichage
+ let volText = '';
+ if (isCyl && item.D && item.H) {
+ const v = (Math.PI * (item.D / 2) ** 2 * item.H) / 1000;
+ volText = `<div class="catalog-card-vol">${formatNumber(v, 1)} L · ${formatNumber(v / 1000, 4)} m³</div>`;
+ } else if (item.L && item.l && item.H) {
+ const v = (item.L * item.l * item.H) / 1000000;
+ volText = `<div class="catalog-card-vol">${formatNumber(v, 3)} m³</div>`;
+ }
+ const clickHandler = pickerMode
+ ? `onclick="pickCatalogItem('${isUser ? 'user' : category}', '${item.id}')"`
+ : '';
+ return `
+ <div class="catalog-card ${pickerMode ? 'pickable' : ''}" ${clickHandler}>
+ <div class="catalog-card-shape">${isCyl ? '○' : '▢'}</div>
+ <div class="catalog-card-content">
+ <div class="catalog-card-label">${item.label}</div>
+ <div class="catalog-card-dim">${dimText}</div>
+ ${volText}
+ <div class="catalog-card-extras">
+ ${item.P ? `<span class="catalog-extra">⚖ ${item.P} kg</span>` : ''}
+ ${item.note ? `<span class="catalog-extra-note">${item.note}</span>` : ''}
+ </div>
+ </div>
+ ${isUser ? `
+ <div class="catalog-card-actions" onclick="event.stopPropagation();">
+ <button class="icon-btn" onclick="editUserCatalogItem('${item.id}')" title="Modifier">
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+ </button>
+ <button class="icon-btn danger" onclick="deleteUserCatalogItem('${item.id}')" title="Supprimer">
+ <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+ </button>
+ </div>
+ ` : ''}
+ </div>
+ `;
+ }).join('')}
+ </div>
+ `;
+}
+function renderUserCatalog(pickerMode) {
+ return `
+ <div class="user-catalog-header">
+ <p style="font-size:13px;color:var(--ink-soft);">
+ Créez vos propres standards (objets, palettes, fûts spécifiques…) — ils restent disponibles pour toutes vos expéditions.
+ </p>
+ <button class="btn btn-primary" onclick="openUserCatalogForm()" style="margin-top:10px;">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+ Ajouter un standard
+ </button>
+ </div>
+ ${renderCatalogItems(userCatalog, 'user', pickerMode, true)}
+ `;
+}
+function closeCatalog() {
+ document.getElementById('modalCatalog').classList.remove('active');
+ if (!document.getElementById('modalExpedition').classList.contains('active')) {
+ document.body.style.overflow = '';
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// USER CATALOG — Form (add/edit)
+// ═══════════════════════════════════════════════════════════
+let editingUserCatalogId = null;
+function openUserCatalogForm(id = null) {
+ editingUserCatalogId = id;
+ let item = null;
+ if (id) {
+ item = userCatalog.find(x => x.id === id);
+ if (!item) return;
+ }
+ document.getElementById('ucf-title').textContent = id ? 'Modifier le standard' : 'Nouveau standard';
+ document.getElementById('ucf-label').value = item?.label || '';
+ document.getElementById('ucf-shape').value = item?.shape || 'box';
+ document.getElementById('ucf-L').value = item?.L || '';
+ document.getElementById('ucf-l').value = item?.l || '';
+ document.getElementById('ucf-H').value = item?.H || '';
+ document.getElementById('ucf-D').value = item?.D || '';
+ document.getElementById('ucf-P').value = item?.P || '';
+ document.getElementById('ucf-note').value = item?.note || '';
+ updateUserCatalogFormFields();
+ recomputeUserCatalogVolume();
+ document.getElementById('modalUserCatalog').classList.add('active');
+}
+function updateUserCatalogFormFields() {
+ const shape = document.getElementById('ucf-shape').value;
+ document.getElementById('ucf-box-fields').style.display = shape === 'box' ? 'contents' : 'none';
+ document.getElementById('ucf-cyl-fields').style.display = shape === 'cyl' ? 'contents' : 'none';
+ recomputeUserCatalogVolume();
+}
+function recomputeUserCatalogVolume() {
+ const shape = document.getElementById('ucf-shape').value;
+ let vol = 0;
+ if (shape === 'cyl') {
+ const D = Number(document.getElementById('ucf-D').value) || 0;
+ const H = Number(document.getElementById('ucf-H').value) || 0;
+ vol = (Math.PI * (D / 2) ** 2 * H) / 1000000;
+ } else {
+ const L = Number(document.getElementById('ucf-L').value) || 0;
+ const l = Number(document.getElementById('ucf-l').value) || 0;
+ const H = Number(document.getElementById('ucf-H').value) || 0;
+ vol = (L * l * H) / 1000000;
+ }
+ const litres = vol * 1000;
+ document.getElementById('ucf-volume').textContent = vol > 0
+ ? `${formatNumber(vol, 4)} m³ · ${formatNumber(litres, 2)} L`
+ : '—';
+}
+function closeUserCatalogForm() {
+ document.getElementById('modalUserCatalog').classList.remove('active');
+ editingUserCatalogId = null;
+}
+function saveUserCatalogItem() {
+ const label = document.getElementById('ucf-label').value.trim();
+ const shape = document.getElementById('ucf-shape').value;
+ if (!label) {
+ showToast('Le nom du standard est requis', 'error');
+ return;
+ }
+ const item = {
+ id: editingUserCatalogId || ('user-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6)),
+ label,
+ shape,
+ note: document.getElementById('ucf-note').value.trim(),
+ P: Number(document.getElementById('ucf-P').value) || null
+ };
+ if (shape === 'cyl') {
+ item.D = Number(document.getElementById('ucf-D').value) || 0;
+ item.H = Number(document.getElementById('ucf-H').value) || 0;
+ if (!item.D || !item.H) {
+ showToast('Diamètre et hauteur sont requis pour un cylindre', 'error');
+ return;
+ }
+ } else {
+ item.L = Number(document.getElementById('ucf-L').value) || 0;
+ item.l = Number(document.getElementById('ucf-l').value) || 0;
+ item.H = Number(document.getElementById('ucf-H').value) || 0;
+ if (!item.L || !item.l || !item.H) {
+ showToast('Longueur, largeur et hauteur sont requis', 'error');
+ return;
+ }
+ }
+ if (editingUserCatalogId) {
+ userCatalog = userCatalog.map(x => x.id === editingUserCatalogId ? item : x);
+ showToast(`"${label}" mis à jour`, 'success');
+ } else {
+ userCatalog.push(item);
+ showToast(`"${label}" ajouté à vos standards`, 'success');
+ }
+ if (saveUserCatalog()) {
+ closeUserCatalogForm();
+ activeCatalogTab = 'user';
+ renderCatalog();
+ }
+}
+function editUserCatalogItem(id) {
+ openUserCatalogForm(id);
+}
+function deleteUserCatalogItem(id) {
+ const item = userCatalog.find(x => x.id === id);
+ if (!item) return;
+ if (!confirm(`Supprimer "${item.label}" de vos standards ?`)) return;
+ userCatalog = userCatalog.filter(x => x.id !== id);
+ if (saveUserCatalog()) {
+ showToast('Standard supprimé', 'success');
+ renderCatalog();
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// ABOUT MODAL
+// ═══════════════════════════════════════════════════════════
+function openAbout() {
+ document.getElementById('modalAbout').classList.add('active');
+ document.body.style.overflow = 'hidden';
+}
+function closeAbout() {
+ document.getElementById('modalAbout').classList.remove('active');
+ document.body.style.overflow = '';
+}
+// ═══════════════════════════════════════════════════════════
+// EXPORT / IMPORT
+// ═══════════════════════════════════════════════════════════
+function exportExcel() {
+ if (expeditions.length === 0) {
+ showToast('Aucune expédition à exporter', 'error');
+ return;
+ }
+ const headers = [
+ 'Référence', 'Date', 'Statut', 'Description',
+ 'Expéditeur', 'Tél exp.', 'Adresse exp.',
+ 'Destinataire', 'Tél dest.', 'Adresse dest.',
+ 'Lot N°', 'Désignation', 'Forme', 'Nb',
+ 'L (cm)', 'l (cm)', 'H (cm)', 'D (cm)',
+ 'Vol. lot (m³)', 'Poids unit. (kg)', 'Poids brut lot (kg)', 'Poids taxable lot (kg)',
+ 'Prix unit. lot', 'Sous-total lot',
+ 'Vol. total expé (m³)', 'Poids taxable total (kg)', 'W/M',
+ 'Mode tarif', 'Tarif',
+ 'Prix lots (∑)', 'Prix calculé (tarif)', 'Prix total', 'Prix au m³ effectif',
+ 'Devise', 'Notes'
+ ];
+ const rows = [];
+ for (const exp of expeditions) {
+ const t = computeExpeditionTotals(exp);
+ const lotsArr = exp.lots && exp.lots.length > 0 ? exp.lots : [{}];
+ for (let i = 0; i < lotsArr.length; i++) {
+ const lot = lotsArr[i];
+ const hasDim = (lot.shape === 'cyl') ? (lot.D && lot.H) : (lot.L && lot.l && lot.H);
+ const c = hasDim ? computeLot(lot) : { volTot: 0, poidsBrut: null, poidsTax: 0 };
+ const prixU = lot.prixU === '' || lot.prixU == null ? null : Number(lot.prixU);
+ const nb = Number(lot.nb) || 0;
+ const sousTotalLot = (prixU != null && nb > 0) ? (prixU * nb) : null;
+ rows.push([
+ exp.reference, exp.date, exp.status, exp.description || '',
+ exp.expediteur?.nom || '', exp.expediteur?.tel || '', (exp.expediteur?.adresse || '').replace(/\n/g, ' / '),
+ exp.destinataire?.nom || '', exp.destinataire?.tel || '', (exp.destinataire?.adresse || '').replace(/\n/g, ' / '),
+ i + 1, lot.designation || '', lot.shape === 'cyl' ? 'Cylindre' : 'Boîte', lot.nb || '',
+ lot.L || '', lot.l || '', lot.H || '', lot.D || '',
+ c.volTot ? c.volTot.toFixed(3) : '', lot.poidsU ?? '', c.poidsBrut != null ? c.poidsBrut.toFixed(2) : '', c.poidsTax ? c.poidsTax.toFixed(2) : '',
+ prixU != null ? prixU.toFixed(2) : '', sousTotalLot != null ? sousTotalLot.toFixed(2) : '',
+ i === 0 ? t.volTot.toFixed(3) : '', i === 0 ? t.poidsTaxTot.toFixed(2) : '', i === 0 ? t.wm.toFixed(3) : '',
+ i === 0 ? exp.tarif?.mode || '' : '', i === 0 ? exp.tarif?.value || '' : '',
+ i === 0 && t.prixLots != null ? t.prixLots.toFixed(2) : '',
+ i === 0 && t.prixTarif != null ? t.prixTarif.toFixed(2) : '',
+ i === 0 && t.prix != null ? t.prix.toFixed(2) : '',
+ i === 0 && t.prixParM3 != null ? t.prixParM3.toFixed(2) : '',
+ i === 0 ? exp.devise || 'EUR' : '',
+ i === 0 ? (exp.notes || '').replace(/\n/g, ' / ') : ''
+ ]);
+ }
+ }
+ const csv = '\ufeff' + [headers, ...rows].map(r =>
+ r.map(v => `"${(v ?? '').toString().replace(/"/g, '""')}"`).join(';')
+ ).join('\n');
+ const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement('a');
+ a.href = url;
+ a.download = `SPEEDZONE_export_${new Date().toISOString().split('T')[0]}.csv`;
+ a.click();
+ URL.revokeObjectURL(url);
+ showToast(`${expeditions.length} expédition(s) exportée(s) en CSV`, 'success');
+}
+function exportBackup() {
+ const data = {
+ app: 'SPEEDZONE',
+ version: 2,
+ exportedAt: new Date().toISOString(),
+ expeditions
+ };
+ const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement('a');
+ a.href = url;
+ a.download = `SPEEDZONE_sauvegarde_${new Date().toISOString().split('T')[0]}.json`;
+ a.click();
+ URL.revokeObjectURL(url);
+ showToast('Sauvegarde JSON téléchargée', 'success');
+}
+function importBackup() {
+ document.getElementById('importInput').click();
+}
+function handleImportFile(event) {
+ const file = event.target.files[0];
+ if (!file) return;
+ const reader = new FileReader();
+ reader.onload = (e) => {
+ try {
+ const data = JSON.parse(e.target.result);
+ if (!data.expeditions || !Array.isArray(data.expeditions)) {
+ throw new Error('Format invalide');
+ }
+ const choice = confirm(`Importer ${data.expeditions.length} expédition(s) ?\n\nOK = Fusionner (garder les actuelles + ajouter celles du fichier)\nAnnuler = Remplacer toutes les données actuelles`);
+ if (choice) {
+ // Fusion : on garde les actuelles, on ajoute celles dont la référence n'existe pas
+ const existingRefs = new Set(expeditions.map(e => e.reference));
+ const newOnes = data.expeditions.filter(e => !existingRefs.has(e.reference));
+ expeditions = [...expeditions, ...newOnes];
+ showToast(`${newOnes.length} nouvelle(s) expédition(s) importée(s)`, 'success');
+ } else {
+ if (!confirm('⚠️ Toutes les expéditions actuelles seront supprimées. Confirmer ?')) return;
+ expeditions = data.expeditions;
+ showToast(`Restauration : ${expeditions.length} expédition(s)`, 'success');
+ }
+ if (saveData()) render();
+ } catch (err) {
+ showToast('Fichier invalide : ' + err.message, 'error');
+ }
+ };
+ reader.readAsText(file);
+ event.target.value = ''; // reset pour pouvoir re-importer le même fichier
+}
+// ═══════════════════════════════════════════════════════════
+// PHOTOS — gestion (upload, compression, suppression, lightbox)
+// ═══════════════════════════════════════════════════════════
+let photos = []; // photos du formulaire en cours : [{ id, dataUrl, name, size }]
+// Configuration de la compression
+const PHOTO_MAX_DIMENSION = 1280; // côté max en pixels
+const PHOTO_JPEG_QUALITY = 0.75; // qualité JPEG (0..1)
+const PHOTO_MAX_SIZE_KB = 800; // taille maximale ciblée par photo
+function generatePhotoId() {
+ return 'photo_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+}
+/**
+ * Compresse une image (File) en JPEG redimensionné, retourne une dataURL.
+ * Utilise un <canvas> pour redimensionner + ré-encoder.
+ */
+function compressImage(file) {
+ return new Promise((resolve, reject) => {
+ const reader = new FileReader();
+ reader.onerror = () => reject(new Error('Lecture impossible'));
+ reader.onload = (e) => {
+ const img = new Image();
+ img.onerror = () => reject(new Error('Image invalide'));
+ img.onload = () => {
+ let { width, height } = img;
+ // Redimensionner si trop grand (côté le plus long → PHOTO_MAX_DIMENSION)
+ if (width > PHOTO_MAX_DIMENSION || height > PHOTO_MAX_DIMENSION) {
+ if (width > height) {
+ height = Math.round(height * (PHOTO_MAX_DIMENSION / width));
+ width = PHOTO_MAX_DIMENSION;
+ } else {
+ width = Math.round(width * (PHOTO_MAX_DIMENSION / height));
+ height = PHOTO_MAX_DIMENSION;
+ }
+ }
+ const canvas = document.createElement('canvas');
+ canvas.width = width;
+ canvas.height = height;
+ const ctx = canvas.getContext('2d');
+ // Fond blanc pour éviter la transparence noire des PNG
+ ctx.fillStyle = '#ffffff';
+ ctx.fillRect(0, 0, width, height);
+ ctx.drawImage(img, 0, 0, width, height);
+ // Tentative de compression progressive si dépassement
+ let quality = PHOTO_JPEG_QUALITY;
+ let dataUrl = canvas.toDataURL('image/jpeg', quality);
+ let sizeKB = Math.round(dataUrl.length * 0.75 / 1024); // approx base64 → bytes
+ // Si encore trop gros, réduire la qualité jusqu'à 0.4 minimum
+ while (sizeKB > PHOTO_MAX_SIZE_KB && quality > 0.4) {
+ quality -= 0.1;
+ dataUrl = canvas.toDataURL('image/jpeg', quality);
+ sizeKB = Math.round(dataUrl.length * 0.75 / 1024);
+ }
+ resolve({ dataUrl, width, height, sizeKB });
+ };
+ img.src = e.target.result;
+ };
+ reader.readAsDataURL(file);
+ });
+}
+async function handlePhotoUpload(event) {
+ const files = Array.from(event.target.files || []);
+ if (files.length === 0) return;
+ // Vérifier qu'on n'a pas plus de 20 photos au total
+ if (photos.length + files.length > 20) {
+ showToast(`Maximum 20 photos (déjà ${photos.length})`, 'error');
+ event.target.value = '';
+ return;
+ }
+ // Affichage immédiat d'un placeholder pendant la compression
+ const placeholders = files.map(f => ({
+ id: generatePhotoId(),
+ uploading: true,
+ name: f.name,
+ size: f.size
+ }));
+ photos.push(...placeholders);
+ renderPhotos();
+ // Traiter chaque fichier
+ for (let i = 0; i < files.length; i++) {
+ const file = files[i];
+ const placeholder = placeholders[i];
+ try {
+ // Vérifier que c'est bien une image
+ if (!file.type.startsWith('image/')) {
+ throw new Error('Ce n\'est pas une image');
+ }
+ const { dataUrl, sizeKB } = await compressImage(file);
+ // Remplacer le placeholder par la vraie photo
+ const idx = photos.findIndex(p => p.id === placeholder.id);
+ if (idx !== -1) {
+ photos[idx] = {
+ id: placeholder.id,
+ dataUrl,
+ name: file.name,
+ size: sizeKB,
+ addedAt: new Date().toISOString()
+ };
+ }
+ renderPhotos();
+ } catch (err) {
+ console.error('Erreur photo:', err);
+ // Retirer le placeholder en erreur
+ photos = photos.filter(p => p.id !== placeholder.id);
+ renderPhotos();
+ showToast(`Erreur sur ${file.name}: ${err.message}`, 'error');
+ }
+ }
+ event.target.value = ''; // Reset pour pouvoir re-uploader le même fichier
+ showToast(`${files.length} photo(s) ajoutée(s)`, 'success');
+}
+function removePhoto(id) {
+ if (!confirm('Supprimer cette photo ?')) return;
+ photos = photos.filter(p => p.id !== id);
+ renderPhotos();
+}
+function renderPhotos() {
+ const grid = document.getElementById('photosGrid');
+ const counter = document.getElementById('photosCounter');
+ const help = document.getElementById('photosHelp');
+ counter.textContent = photos.length === 0 ? '0 photo' : photos.length === 1 ? '1 photo' : `${photos.length} photos`;
+ if (photos.length === 0) {
+ grid.innerHTML = '';
+ if (help) help.style.display = 'block';
+ return;
+ }
+ if (help) help.style.display = 'none';
+ grid.innerHTML = photos.map((p, idx) => {
+ if (p.uploading) {
+ return `
+ <div class="photo-thumb">
+ <div class="photo-thumb-uploading">
+ <span>⏳ Compression…</span>
+ </div>
+ </div>
+ `;
+ }
+ return `
+ <div class="photo-thumb" onclick="openLightbox(${idx}, 'form')">
+ <img src="${p.dataUrl}" alt="${p.name || 'Photo'}">
+ <div class="photo-thumb-actions">
+ <button type="button" class="photo-thumb-del" onclick="event.stopPropagation(); removePhoto('${p.id}')" title="Supprimer">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+ </button>
+ </div>
+ <div class="photo-thumb-caption">${p.size ? p.size + ' Ko' : ''}</div>
+ </div>
+ `;
+ }).join('');
+}
+// ─── LIGHTBOX ────────────────────────────────────────────
+let lightboxIndex = 0;
+let lightboxSource = 'form'; // 'form' (photos en cours) ou 'detail' (photos d'une expé enregistrée)
+let lightboxPhotos = [];
+function openLightbox(index, source = 'form') {
+ lightboxSource = source;
+ lightboxPhotos = source === 'form' ? photos.filter(p => !p.uploading) : (
+ currentDetailId ? (expeditions.find(e => e.id === currentDetailId)?.photos || []) : []
+ );
+ if (lightboxPhotos.length === 0) return;
+ lightboxIndex = Math.max(0, Math.min(index, lightboxPhotos.length - 1));
+ updateLightbox();
+ document.getElementById('lightbox').classList.add('active');
+}
+function updateLightbox() {
+ const p = lightboxPhotos[lightboxIndex];
+ if (!p) return;
+ document.getElementById('lightboxImg').src = p.dataUrl;
+ document.getElementById('lightboxImg').alt = p.name || '';
+ document.getElementById('lightboxCaption').textContent = `${lightboxIndex + 1} / ${lightboxPhotos.length}${p.name ? ' — ' + p.name : ''}`;
+ // Cacher la nav si une seule photo
+ const hasNav = lightboxPhotos.length > 1;
+ document.querySelectorAll('.lightbox-nav').forEach(n => n.style.display = hasNav ? 'flex' : 'none');
+}
+function lightboxNav(direction, e) {
+ if (e) e.stopPropagation();
+ if (lightboxPhotos.length === 0) return;
+ lightboxIndex = (lightboxIndex + direction + lightboxPhotos.length) % lightboxPhotos.length;
+ updateLightbox();
+}
+function closeLightbox(e, force = false) {
+ // On ferme seulement si on clique sur le fond (pas sur l'image) — sauf si force=true (bouton fermer)
+ if (!force && e && e.target.tagName === 'IMG') return;
+ if (!force && e && e.target.className && e.target.className.includes && e.target.className.includes('lightbox-nav')) return;
+ document.getElementById('lightbox').classList.remove('active');
+}
+// ═══════════════════════════════════════════════════════════
+function render() {
+ const search = document.getElementById('search').value.toLowerCase();
+ const sortBy = document.getElementById('sortBy').value;
+ let filtered = expeditions.filter(e => {
+ if (!search) return true;
+ return [e.reference, e.expediteur?.nom, e.destinataire?.nom, e.description, e.notes]
+ .some(f => (f || '').toLowerCase().includes(search));
+ });
+ filtered.sort((a, b) => {
+ const ta = computeExpeditionTotals(a);
+ const tb = computeExpeditionTotals(b);
+ switch (sortBy) {
+ case 'date-desc': return (b.date || '').localeCompare(a.date || '') || (b.createdAt || '').localeCompare(a.createdAt || '');
+ case 'date-asc': return (a.date || '').localeCompare(b.date || '');
+ case 'ref-asc': return (a.reference || '').localeCompare(b.reference || '');
+ case 'weight-desc': return (tb.poidsTaxTot || 0) - (ta.poidsTaxTot || 0);
+ case 'volume-desc': return (tb.volTot || 0) - (ta.volTot || 0);
+ case 'price-desc': return (tb.prix || 0) - (ta.prix || 0);
+ default: return 0;
+ }
+ });
+ const tbody = document.getElementById('tbody');
+ const empty = document.getElementById('empty');
+ const table = document.getElementById('table');
+ if (filtered.length === 0) {
+ table.style.display = 'none';
+ empty.style.display = 'block';
+ if (expeditions.length > 0) {
+ empty.querySelector('h3').textContent = 'Aucun résultat';
+ empty.querySelector('p').textContent = 'Essayez d\'ajuster votre recherche';
+ } else {
+ empty.querySelector('h3').textContent = 'Aucune expédition enregistrée';
+ empty.querySelector('p').textContent = 'Cliquez sur « Nouvelle expédition » pour commencer';
+ }
+ } else {
+ table.style.display = 'table';
+ empty.style.display = 'none';
+ tbody.innerHTML = filtered.map(exp => {
+ const t = computeExpeditionTotals(exp);
+ const nbColisTot = (exp.lots || []).reduce((s, l) => s + (Number(l.nb) || 0), 0);
+ const nbPhotos = (exp.photos || []).length;
+ return `
+ <tr onclick="openDetail('${exp.id}')" style="cursor:pointer;">
+ <td class="ref-cell">
+ ${exp.reference}
+ ${nbPhotos > 0 ? `<span class="ref-badge-photo" title="${nbPhotos} photo${nbPhotos > 1 ? 's' : ''}">
+ <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+ ${nbPhotos}
+ </span>` : ''}
+ </td>
+ <td>${formatDate(exp.date)}</td>
+ <td class="name-cell">
+ <div>${exp.expediteur?.nom || '—'}</div>
+ ${exp.description ? `<div class="sub">${exp.description}</div>` : ''}
+ </td>
+ <td class="name-cell">${exp.destinataire?.nom || '—'}</td>
+ <td class="num-cell">${nbColisTot}</td>
+ <td class="vol-cell">${formatNumber(t.volTot, 3)}</td>
+ <td class="num-cell">${formatNumber(t.poidsTaxTot, 2)} kg</td>
+ <td class="num-cell">${t.prix != null ? formatNumber(t.prix, 2) + ' ' + (exp.devise || 'EUR') : '<span style="color:var(--brass-dim);font-style:italic;">selon devis</span>'}</td>
+ <td class="actions-cell" onclick="event.stopPropagation();">
+ <button class="icon-btn" onclick="openExpeditionModal('${exp.id}')" title="Modifier">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+ </button>
+ <button class="icon-btn danger" onclick="deleteExpedition('${exp.id}')" title="Supprimer">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+ </button>
+ </td>
+ </tr>
+ `;
+ }).join('');
+ }
+ // STATS GLOBAUX
+ let totalVolume = 0, totalWeight = 0;
+ const totalsByDevise = {};
+ for (const exp of expeditions) {
+ const t = computeExpeditionTotals(exp);
+ totalVolume += t.volTot;
+ totalWeight += t.poidsTaxTot;
+ if (t.prix != null) {
+ totalsByDevise[exp.devise] = (totalsByDevise[exp.devise] || 0) + t.prix;
+ }
+ }
+ document.getElementById('stat-count').textContent = expeditions.length;
+ document.getElementById('stat-volume').innerHTML = `${formatNumber(totalVolume, 2)}<span class="stat-unit">m³</span>`;
+ document.getElementById('stat-weight').innerHTML = `${formatInt(totalWeight)}<span class="stat-unit">kg</span>`;
+ const mainDevise = Object.keys(totalsByDevise).sort((a, b) => totalsByDevise[b] - totalsByDevise[a])[0] || 'EUR';
+ const mainTotal = totalsByDevise[mainDevise] || 0;
+ document.getElementById('stat-price').innerHTML = `${formatInt(mainTotal)}<span class="stat-unit">${mainDevise}</span>`;
+}
+// ═══════════════════════════════════════════════════════════
+// TOAST + DROPDOWN
+// ═══════════════════════════════════════════════════════════
+function showToast(msg, type = 'success') {
+ const t = document.getElementById('toast');
+ t.textContent = msg;
+ t.className = `toast ${type}`;
+ requestAnimationFrame(() => t.classList.add('show'));
+ setTimeout(() => t.classList.remove('show'), 3200);
+}
+function toggleDropdown(e) {
+ e.stopPropagation();
+ document.getElementById('mainDropdown').classList.toggle('show');
+}
+function closeDropdown() {
+ document.getElementById('mainDropdown').classList.remove('show');
+}
+document.addEventListener('click', () => closeDropdown());
+// ═══════════════════════════════════════════════════════════
+// PWA INSTALL
+// ═══════════════════════════════════════════════════════════
+window.addEventListener('beforeinstallprompt', (e) => {
+ e.preventDefault();
+ deferredPrompt = e;
+ // N'afficher la bannière que si l'utilisateur n'a pas déjà refusé récemment
+ const dismissed = localStorage.getItem('install_dismissed_until');
+ if (dismissed && Number(dismissed) > Date.now()) return;
+ document.getElementById('installBanner').classList.add('show');
+});
+function installApp() {
+ if (!deferredPrompt) return;
+ deferredPrompt.prompt();
+ deferredPrompt.userChoice.then(() => {
+ deferredPrompt = null;
+ hideInstallBanner();
+ });
+}
+function hideInstallBanner() {
+ document.getElementById('installBanner').classList.remove('show');
+ // Ne pas reproposer pendant 7 jours
+ localStorage.setItem('install_dismissed_until', Date.now() + 7 * 24 * 3600 * 1000);
+}
+// Service worker minimal pour activer le mode hors-ligne (cache de la page elle-même)
+if ('serviceWorker' in navigator) {
+ const swCode = `
+ const CACHE = 'speedzone-v2';
+ self.addEventListener('install', e => self.skipWaiting());
+ self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+ self.addEventListener('fetch', e => {
+ if (e.request.method !== 'GET') return;
+ e.respondWith(
+ caches.open(CACHE).then(cache =>
+ cache.match(e.request).then(cached => {
+ const fetchPromise = fetch(e.request).then(resp => {
+ if (resp && resp.status === 200) cache.put(e.request, resp.clone());
+ return resp;
+ }).catch(() => cached);
+ return cached || fetchPromise;
+ })
+ )
+ );
+ });
+ `;
+ try {
+ const blob = new Blob([swCode], { type: 'application/javascript' });
+ const swUrl = URL.createObjectURL(blob);
+ navigator.serviceWorker.register(swUrl).catch(err => console.log('SW register failed:', err));
+ } catch (e) {
+ console.log('SW setup skipped:', e);
+ }
+}
+// ═══════════════════════════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════════════════════════
+document.getElementById('search').addEventListener('input', render);
+document.getElementById('sortBy').addEventListener('change', render);
+document.getElementById('modalExpedition').addEventListener('click', (e) => {
+ if (e.target.id === 'modalExpedition') closeExpeditionModal();
+});
+document.getElementById('modalDetail').addEventListener('click', (e) => {
+ if (e.target.id === 'modalDetail') closeDetail();
+});
+document.getElementById('modalCatalog').addEventListener('click', (e) => {
+ if (e.target.id === 'modalCatalog') closeCatalog();
+});
+document.getElementById('modalUserCatalog').addEventListener('click', (e) => {
+ if (e.target.id === 'modalUserCatalog') closeUserCatalogForm();
+});
+document.getElementById('modalAbout').addEventListener('click', (e) => {
+ if (e.target.id === 'modalAbout') closeAbout();
+});
+document.addEventListener('keydown', (e) => {
+ // Lightbox d'abord (priorité maximale)
+ if (document.getElementById('lightbox').classList.contains('active')) {
+ if (e.key === 'Escape') {
+ closeLightbox(null, true);
+ return;
+ }
+ if (e.key === 'ArrowLeft') {
+ lightboxNav(-1);
+ return;
+ }
+ if (e.key === 'ArrowRight') {
+ lightboxNav(1);
+ return;
+ }
+ }
+ if (e.key === 'Escape') {
+ ['modalUserCatalog', 'modalExpedition', 'modalDetail', 'modalCatalog', 'modalAbout'].forEach(id => {
+ const m = document.getElementById(id);
+ if (m.classList.contains('active')) {
+ if (id === 'modalExpedition') closeExpeditionModal();
+ else if (id === 'modalDetail') closeDetail();
+ else if (id === 'modalCatalog') closeCatalog();
+ else if (id === 'modalUserCatalog') closeUserCatalogForm();
+ else closeAbout();
+ }
+ });
+ }
+});
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+loadUserCatalog();
+loadData();
+</script>
+</body>
+</html>
